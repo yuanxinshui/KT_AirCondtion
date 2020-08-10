@@ -1,0 +1,131 @@
+body {
+    background: url(../../resources/images/bg.jpg) no-repeat;
+    /* 背景图完全覆盖*/
+    background-size: cover;
+}
+
+.header {
+    position: absolute;
+}
+
+header .showTime {
+    position: absolute;
+    right: 30px;
+    top: 10px;
+    line-height: 80px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+}
+
+.container {
+    min-height: 700px;
+    min-width: 1000px;
+    /* 最大宽度，保证图片不失真笔记本1920,台式电脑*/
+    max-width: 1920px;
+    margin: 0 auto;
+    background: url(../../resources/images/logo.png) no-repeat;
+    /*设置版心背景图，要让它自适应这个body */
+    background-size: contain;
+    padding: 88px 20px 20px 20px;
+    display: flex;
+}
+
+.panel {
+    /* background: pink; */
+    /* 注意设置边框图像，就一定要给盒子设定边框 */
+    border: 20px solid red;
+    /* 分别设置每一个边框的宽度，是为了能够完整的显示背景图 */
+    border-width: 77px 60px 23px 200px;
+    /* 设置了边框，那盒子就会变大了，如果想要盒子不变大，需要进行如下设置 */
+    box-sizing: border-box;
+    border-image-source: url(../../resources/images/border.png);
+    border-image-slice: 77 60 23 200;
+    border-image-width: 77px 60px 23px 200px;
+    border-image-repeat: stretch;
+    position: relative;
+}
+
+.inner {
+    position: absolute;
+    top: -77px;
+    right: -60px;
+    bottom: -23px;
+    left: -200px;
+    padding: 20px;
+}
+
+
+/*第一列 */
+
+.column:nth-child(1) {
+    flex: 3;
+}
+
+
+/* 1.1数据概况 */
+
+.overview {
+    height: 216px;
+}
+
+
+/* 1.2故障设备健康 */
+
+.monitor {
+    height: 474px;
+    margin-top: 20px;
+}
+
+
+/* 1.3故障统计 */
+
+.fault_stas {
+    height: 336px;
+    margin-top: 20px;
+}
+
+
+/*第二列 */
+
+.column:nth-child(2) {
+    padding-left: 20px;
+    flex: 4;
+}
+
+.column:nth-child(2) .subway-line {
+    margin-top: 15px;
+}
+
+.column:nth-child(2) .subway-line .echarts {
+    height: 350px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin-top: 15px;
+}
+
+.column:nth-child(2) .subway-line h3 {
+    font-size: 20px;
+    color: white;
+}
+
+.column:nth-child(2) .subway-line h3 i {
+    color: #68d8fe;
+    margin-right: 8px;
+}
+
+.column:nth-child(2) .trend1 {
+    height: 285px;
+    margin-top: 20px;
+}
+
+.column:nth-child(2) .trend2 {
+    height: 336px;
+    margin-top: 20px;
+}
+
+
+/* 第三列 */
+
+.column:nth-child(3) {
+    padding-left: 20px;
+    flex: 3;
+}
