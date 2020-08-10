@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>空调健康评估系统</title>
+    <!-- 引入公共样式 -->
+    <link rel="stylesheet" href="../static/css/base.css">
+    <!--引入我们自己写的样式 -->
+    <link rel="stylesheet" href="../static/css/index.css">
+    <!--引入项目中要使用的字体图标 -->
+    <link rel="stylesheet" href="../resources/fonts/icomoon.css">
+
+</head>
+
+<body>
+    <header>
+        <div class="showTime"></div>
+        <script>
+            var t = null;
+            t = setTimeout(time, 1000); //開始运行
+            function time() {
+                clearTimeout(t); //清除定时器
+                dt = new Date();
+                var y = dt.getFullYear();
+                var mt = dt.getMonth() + 1;
+                var day = dt.getDate();
+                var h = dt.getHours(); //获取时
+                var m = dt.getMinutes(); //获取分
+                var s = dt.getSeconds(); //获取秒
+                document.querySelector(".showTime").innerHTML =
+                    y +
+                    "年" +
+                    mt +
+                    "月" +
+                    day +
+                    "-" +
+                    h +
+                    "时" +
+                    m +
+                    "分" +
+                    s +
+                    "秒";
+                t = setTimeout(time, 1000); //设定定时器，循环运行
+            }
+        </script>
+    </header>
+    <!-- 版心 -->
+    <div class="container">
+        <!-- 第一列 -->
+        <div class="column">
+            <!-- 1.1数据概况 -->
+            <div class="overview panel">
+                <div class="inner"></div>
+            </div>
+            <!-- 1.2故障设备监测 -->
+            <div class="monitor panel">
+                <div class="inner"></div>
+            </div>
+            <!-- 1.3故障统计 -->
+            <div class="fault_stas panel">
+                <div class="inner"></div>
+            </div>
+        </div>
+
+        <!-- 第二列 -->
+        <div class="column">
+            <!-- 2.1地铁线路图/空调设备结构图 -->
+            <div class="subway-line">
+                <h3><i class="icon-train"></i>地铁线路图</h3>
+                <div class="echarts">
+                    <div class="sublines"></div>
+                </div>
+            </div>
+            <!-- 2.2趋势图1 -->
+            <div class="trend1 panel">
+                <div class="inner"></div>
+            </div>
+
+            <!-- 2.2趋势图1 -->
+            <div class="trend2 panel">
+                <div class="inner"></div>
+            </div>
+
+        </div>
+        <!-- 第三列 -->
+        <div class="column"></div>
+    </div>
+</body>
+
+</html>
