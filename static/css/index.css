@@ -18,7 +18,7 @@ header .showTime {
 }
 
 .container {
-    min-height: 700px;
+    min-height: 800px;
     min-width: 1000px;
     /* 最大宽度，保证图片不失真笔记本1920,台式电脑*/
     max-width: 1920px;
@@ -129,3 +129,24 @@ header .showTime {
     padding-left: 20px;
     flex: 3;
 }
+
+/* 3.1实时数据监控/趋势  */
+.column:nth-child(3) .realtime {
+  height: 340px;
+}
+
+/* 3.2实时健康评估 */
+.column:nth-child(3) .health_assess {
+    height: 340px;
+    margin-top: 20px;
+  }
+
+/* 3.3 Z历史健康趋势*/
+.column:nth-child(3) .health_trend {
+    height: 340px;
+    margin-top: 20px;
+  }
+
+
+
+  
