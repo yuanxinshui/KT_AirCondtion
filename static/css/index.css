@@ -13,7 +13,7 @@ header .showTime {
     right: 30px;
     top: 10px;
     line-height: 80px;
-    color: rgba(255, 255, 255, 0.7);
+    color:rgb(15, 201, 98);
     font-size: 16px;
 }
 
@@ -68,17 +68,147 @@ header .showTime {
     height: 216px;
 }
 
+.overview span {
+    font-size: 20px;
+    color: white;
+}
 
-/* 1.2故障设备健康 */
+.overview .data {
+    height: 150px;
+    background-color: url(../../resources/images/rect.png);
+    margin-top: 3px;
+}
+
+.overview .data .item{
+    float: left;
+    width: 25%;
+    height: 100%;
+    padding-top: 10px;
+}
+
+.overview .data .item .echarts{
+    height: 100%;
+}
+
+.overview .data .item .days{
+    height: 100%;
+}
+
+.overview .data p{
+    color: #0bace6;
+    font-size: 8px;
+}
+
+
+/* 1.2故障设备监测 */
 
 .monitor {
     height: 474px;
     margin-top: 20px;
 }
 
+.monitor .tabs{
+    height: 24px;
+}
+.monitor .tabs a{
+    /* display: inline-block;
+    line-height: 24px;
+    height: 24px; */
+    font-size: 20px;
+    color: white;
+}
+
+.monitor .tabs a.active{
+   color: #1950c4;
+}
+
+
+.monitor .tabs a:nth-child(1){
+    border-right: 2px solid  #00f2f1;
+    padding-right: 25px;
+ }
+
+ .monitor .tabs a:nth-child(2){
+    margin-left: 25px;
+ }
+
+ /* tab栏切换 页面 */
+ .monitor .content .head{
+     background-color: rgba(255, 255, 255, 0.1);
+     height: 38px;
+     line-height: 38px;
+     margin-top: 15px;
+     /* 想要页面的头部整个伸过去，那就用margin为负数抵消 */
+     margin-left: -20px;
+     margin-right: -20px;
+     padding-left: 20px;
+ }
+
+ .monitor .content .head span{
+    float: left;
+    width: 25%;
+    color: #68d8fe;
+}
+
+.monitor .content .head span:nth-child(2){
+    width: 50%;
+}
+
+/* tab栏切换  页面 轮播图 */
+.monitor .content .carousel{
+    height: 350px;
+    overflow: hidden;
+    position: relative;
+}
+
+.monitor .content .carousel ul{
+    /* background-color: pink; */
+    margin-left: -20px;
+    margin-right: -20px;
+    width: 100%;
+    position: absolute;
+    
+}
+
+.monitor .content .carousel ul li{
+    color: #5697e6;
+    height: 35px;
+    line-height: 35px;
+
+    /* margin-left: -20px;
+    margin-right: -20px; */
+    padding-left: 20px;
+}
+
+.monitor .content .carousel ul li:hover{
+    /* background-color: green; */
+}
+
+.monitor .content .carousel ul li.active{
+    background-color: green;
+
+}
+
+.monitor .content .carousel ul li span{
+    float: left;
+    width: 25%;
+}
+
+.monitor .content .carousel ul li span:nth-child(2){
+    width: 50%;
+
+    /* 超出文本显示省略号 */
+    /* 1.设置不允许换行：不让换行那就一整行显示，那就会超出盒子 */
+    white-space:nowrap ;
+    /* 2.超出了就隐藏 */
+    overflow: hidden;
+    /* 3.设置隐藏的部分为省略号 */
+    text-overflow: ellipsis;
+}
+
+
 
 /* 1.3故障统计 */
-
 .fault_stas {
     height: 336px;
     margin-top: 20px;
@@ -86,7 +216,6 @@ header .showTime {
 
 
 /*第二列 */
-
 .column:nth-child(2) {
     padding-left: 20px;
     flex: 4;
@@ -97,9 +226,13 @@ header .showTime {
 }
 
 .column:nth-child(2) .subway-line .echarts {
-    height: 350px;
+    height: 435px;
     background-color: rgba(255, 255, 255, 0.1);
     margin-top: 15px;
+}
+
+.column:nth-child(2) .subway-line .echarts .sublines {
+    height: 100%;
 }
 
 .column:nth-child(2) .subway-line h3 {
@@ -113,7 +246,7 @@ header .showTime {
 }
 
 .column:nth-child(2) .trend1 {
-    height: 285px;
+    height: 200px;
     margin-top: 20px;
 }
 
@@ -124,7 +257,6 @@ header .showTime {
 
 
 /* 第三列 */
-
 .column:nth-child(3) {
     padding-left: 20px;
     flex: 3;
@@ -132,14 +264,96 @@ header .showTime {
 
 /* 3.1实时数据监控/趋势  */
 .column:nth-child(3) .realtime {
-  height: 340px;
+  height: 300px;
+}
+
+.column:nth-child(3) .realtime span{
+    color: white;
+    font-size: 18px;
+    
+}
+
+.column:nth-child(3) .realtime .echarts{
+    height: 220px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin-top: 20px;
+}
+
+.column:nth-child(3) .realtime .echarts .bar{
+    height: 100%;
 }
 
 /* 3.2实时健康评估 */
 .column:nth-child(3) .health_assess {
-    height: 340px;
+    height: 380px;
     margin-top: 20px;
   }
+
+.health_assess .head{
+
+}
+
+.health_assess .head span{
+    color: white;
+    font-size: 18px;
+    border-right: 2px solid #00f2f1;
+    padding-right: 15px;
+}
+
+.health_assess .head a{
+    color: #0bace6;
+    font-size: 14px;
+    padding: 8px;
+    margin-left: 10px;
+}
+
+.health_assess .head a.active{
+    color: white;
+    background-color: #4c9bfd;
+    border-radius: 3px;
+}
+
+.health_assess .echarts{
+    height: 320px;
+    margin-top: 18px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.health_assess .echarts .board{
+    float: left;
+    width: 65%;
+    height: 100%;
+}
+
+.health_assess .echarts .data{
+    float: left;
+    width: 35%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    background-image: url('../../resources/images/rect.png');
+}
+
+.health_assess .echarts .data .item{
+    height: 40%;
+    text-align: center;
+    padding-top: 30px;
+}
+
+.health_assess .echarts .data .item small{
+   font-size: 20px;
+   font-weight: bold;
+   color: white;
+}
+
+.health_assess .echarts .data .item span{
+    color: #4c9bfd;
+    font-size: 15px;
+    margin-bottom: 10px;
+ }
+
+ .health_assess .echarts .data .item p{
+    padding-top: 15px;
+ }
 
 /* 3.3 Z历史健康趋势*/
 .column:nth-child(3) .health_trend {

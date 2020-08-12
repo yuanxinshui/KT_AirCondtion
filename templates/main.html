@@ -11,6 +11,12 @@
     <link rel="stylesheet" href="../static/css/index.css">
     <!--引入项目中要使用的字体图标 -->
     <link rel="stylesheet" href="../resources/fonts/icomoon.css">
+    <!-- 引入jQuery.js -->
+    <script src="../static/js/jquery-1.11.1.min.js"></script>
+    <!-- 引入echarts.js -->
+    <script src="../static/js/echarts.js"></script>
+    <!-- 引入自己写的js -->
+    <script src="../static/js/index.js"></script>
 
 </head>
 
@@ -52,12 +58,314 @@
         <div class="column">
             <!-- 1.1数据概况 -->
             <div class="overview panel">
-                <div class="inner"></div>
+                <div class="inner">
+                    <span>空调概况</span>
+                    <div class="data">
+                        <div class="item">
+                            <p>安全运行天数</p>
+                            <div class="echarts">
+                                <div class="days"></div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <p>空调使用率</p>
+                            <div class="echarts"></div>
+                        </div>
+                        <div class="item">
+                            <p>今日告警数</p>
+                            <div class="echarts"></div>
+                        </div>
+                        <div class="item">
+                            <p>最新温度</p>
+                            <div class="echarts"></div>
+                        </div>
+                     
+                    </div>
+
+                </div>
             </div>
             <!-- 1.2故障设备监测 -->
             <div class="monitor panel">
                 <div class="inner">
-                    
+                       <!-- tab栏切换页签 -->
+                       <div class="tabs">
+                        <a href="javascript:void(0)">设备故障诊断</a>
+                        <a href="javascript:void(0)" class="active">设备故障预警</a>
+                    </div>
+                    <!-- tab栏切换 页面 -->
+                    <div class="content">
+                        <div class="head">
+                            <span>故障时间</span>
+                            <span>故障类型</span>
+                            <span>故障代码</span>
+                        </div>
+                        <div class="carousel">
+                            <ul>
+                                <li>
+                                    <span>20200522</span>
+                                    <span>1#号机组M1车系统1新风温度传感器故障</span>
+                                    <span>100011</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100012</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100013</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100014</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100015</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100016</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100017</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100018</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100019</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100020</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100021</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100022</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100023</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100024</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100025</span>
+                                </li>
+                                <li>
+                                    <span>20200522</span>
+                                    <span>1#号机组M1车系统1新风温度传感器故障</span>
+                                    <span>100011</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100012</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100013</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100014</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100015</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100016</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100017</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100018</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100019</span>
+                                </li>
+                                <li>
+                                    <span>20200523</span>
+                                    <span>1#号机组M2车系统1回风温度传感器故障</span>
+                                    <span>100020</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="content" style="display: none;">
+                        <div class="head">
+                            <span>预警时间</span>
+                            <span>预警类型</span>
+                            <span>预警等级</span>
+                        </div>
+                        <div class="carousel">
+                            <ul>
+                                <li>
+                                    <span>20200522</span>
+                                    <span>1#号机组M1新风阀异常预警</span>
+                                    <span>100011</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>1#号机组M2车系统1高压预警</span>
+                                    <span>100012</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>1#号机组M2车系统1制冷剂泄露预警</span>
+                                    <span>100013</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>1#号机组M2车系统1制冷效果不佳预警</span>
+                                    <span>100014</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>1#号机组M2车系统1制冷过冷预警</span>
+                                    <span>100015</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>1#号机组M2车系统1制热效果不佳预警</span>
+                                    <span>100016</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>1#号机组M2车系统1制热过热预警</span>
+                                    <span>100017</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>2#号机组M1新风阀异常预警</span>
+                                    <span>100018</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>2#号机组M2车系统1高压预警</span>
+                                    <span>100019</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>2#号机组M2车系统1制冷剂泄露预警</span>
+                                    <span>100020</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>2#号机组M2车系统1制冷效果不佳预警</span>
+                                    <span>100021</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>2#号机组M2车系统1制冷过冷预警</span>
+                                    <span>100022</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>1#号机组M2车系统1制热过热预警</span>
+                                    <span>100023</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>2#号机组MP1车系统1制冷效果不佳预警</span>
+                                    <span>100024/span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>2#号机组MP2车系统1制冷效果不佳预警</span>
+                                    <span>100025</span>
+                                </li>
+                                <li>
+                                    <span>20200522</span>
+                                    <span>1#号机组M1新风阀异常预警</span>
+                                    <span>100011</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>1#号机组M2车系统1高压预警</span>
+                                    <span>100012</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>1#号机组M2车系统1制冷剂泄露预警</span>
+                                    <span>100013</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>1#号机组M2车系统1制冷效果不佳预警</span>
+                                    <span>100014</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>1#号机组M2车系统1制冷过冷预警</span>
+                                    <span>100015</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>1#号机组M2车系统1制热效果不佳预警</span>
+                                    <span>100016</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>1#号机组M2车系统1制热过热预警</span>
+                                    <span>100017</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>2#号机组M1新风阀异常预警</span>
+                                    <span>100018</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>2#号机组M2车系统1高压预警</span>
+                                    <span>100019</span>
+                                </li>
+                                <li>
+                                    <span>20200624</span>
+                                    <span>2#号机组M2车系统1制冷剂泄露预警</span>
+                                    <span>100020</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- 1.3故障统计 -->
@@ -90,11 +398,40 @@
         <div class="column">
             <!-- 实时数据监控/趋势 -->
             <div class="realtime panel">
-                <div class="inner"></div>
+                <div class="inner">
+                <span>寿命预测</span>
+                <div class="echarts">
+                    <div class="bar"></div>
+                </div>
+                </div>
             </div>
             <!-- 实时健康评估 -->
             <div class="health_assess panel">
-                <div class="inner"></div>
+                <div class="inner">
+                    <div class="head">
+                        <span>健康评估</span>
+                        <a href="javascript:void(0)">M1</a>
+                        <a href="javascript:void(0)">M2</a>
+                        <a href="javascript:void(0)" class="active">M3</a>
+                        <a href="javascript:void(0)">MP1</a>
+                        <a href="javascript:void(0)">Mp2</a>
+                        <a href="javascript:void(0)">TC1</a>
+                    </div>
+                    <div class="echarts">
+                        <div class="board"></div>
+                        <div class="data">
+                            <div class="item">
+                                <span>同比上日</span>
+                                <p><i class="icon-up" style="color: red;"></i><small>35%</small></p>
+                            </div>
+                            <div class="item">
+                                <span>同比上周</span>
+                                <p><i class="icon-down" style="color: blue;"></i><small>12%</small></p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
             <!-- 历史健康趋势/健康预测 -->
             <div class="health_trend panel">
