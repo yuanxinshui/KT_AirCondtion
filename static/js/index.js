@@ -2,7 +2,975 @@
 //页面上所有的js动态效果都写在这里
 
 
-//入口函数--空调概况
+//入口函数--空调概况  安全运行天数
+$(function(){
+  
+    //1.实例化对象
+    var myChart = echarts.init(document.querySelector(".overview .echarts .days"));
+    
+    var option = {
+        backgroundColor: '#00020D',
+        title:{
+              //text: '实时旋转饼图'  
+        },
+        series: [
+            {
+                type: 'pie',
+                zlevel: 1,
+                silent: true,
+                /*
+                radius
+                饼图的半径。可以为如下类型：
+                number：直接指定外半径值。
+                string：例如，'20%'，表示外半径为可视区尺寸（容器高宽中较小一项）的 20% 长度。
+                Array.<number|string>：数组的第一项是内半径，第二项是外半径。每一项遵从上述 number string 的描述。
+                */
+                radius: ['98%', '97%'],
+                hoverAnimation: false,
+                color: "rgba(88,142,197,0.5)",
+                // animation:false,    //charts3 no
+                label: {
+                    normal: {
+                        show: false
+                    },
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data: [1]
+            },
+            {
+                type: 'pie',
+                zlevel: 2,
+                silent: true,
+                radius: ['90%', '91%'],
+                startAngle: 50,
+                hoverAnimation: false,
+                // animation:false,    //charts3 no
+                label: {
+                    normal: {
+                        show: false
+                    },
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data: _pie2()
+            },
+            {
+                type: 'pie',
+                zlevel: 3,
+                silent: true,
+                radius: ['88%', '87%'],
+                label: {
+                    normal: {
+                        show: false
+                    },
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data: _pie2()
+            },
+            {
+                type: 'pie',
+                zlevel: 4,
+                silent: true,
+                radius: ['84%', '83%'],
+                label: {
+                    normal: {
+                        show: false
+                    },
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data: _pie3()
+            }, 
+            {
+                type: 'pie',
+                zlevel: 5,
+                silent: true,
+                radius: ['80%', '78%'],
+                color: ["#fc8d89", "#46d3f3", "rgba(203,203,203,.2)"],
+                startAngle: 50,
+                hoverAnimation: false,
+                // animation:false,    //charts3 no
+                label: {
+                    normal: {
+                        show: false
+                    },
+                },
+                data: [50, 20, 40]
+            },
+            {
+                name: "",
+                type: 'gauge',
+                splitNumber: 30, //刻度数量
+                min: 0,
+                max: 100,
+                radius: '73%', //图表尺寸
+                center: ['50%', '50%'],
+                startAngle: 90,
+                endAngle: -269.9999,
+                axisLine: {
+                    show: false,
+                    lineStyle: {
+                        width: 0,
+                        shadowBlur: 0,
+                        color: [
+                            [1, '#0dc2fe']
+                        ]
+                    }
+                },
+                axisTick: {
+                    show: false,
+                    lineStyle: {
+                        color: 'auto',
+                        width: 2
+                    },
+                    length: 20,
+                    splitNumber: 5
+                },
+                splitLine: {
+                    show: true,
+                    length: 32,
+                    lineStyle: {
+                        color: 'auto',
+                    }
+                },
+                axisLabel: {
+                    show: false
+                },
+                pointer: { //仪表盘指针
+                    show: 0,
+                },
+                detail: {
+                    show: 0,
+                },
+            },
+            {
+                name: '统计',
+                type: 'gauge',
+                splitNumber: 30, //刻度数量
+                min: 0,
+                max: 100,
+                radius: '68%', //图表尺寸
+                center: ['50%', '50%'],
+                startAngle: 90,
+                endAngle: -269.9999,
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        width: 0,
+                        shadowBlur: 0,
+                        color: [
+                            [0, '#0dc2fe'],
+                            [1, '#0dc2fe']
+                        ]
+                    }
+                },
+                axisTick: {
+                    show: true,
+                    lineStyle: {
+                        color: '#0dc2fe',
+                        width: 2
+                    },
+                    length: 20,
+                    splitNumber: 5
+                },
+                splitLine: {
+                    show: true,
+                    length: 20,
+                    lineStyle: {
+                        color: '#0dc2fe',
+                    }
+                },
+                axisLabel: {
+                    show: false
+                },
+                pointer: { //仪表盘指针
+                    show: 0,
+                },
+                detail: {
+                    borderColor: '#fff',
+                    shadowColor: '#fff', //默认透明
+                    shadowBlur: 2,
+                    offsetCenter: [0, '0%'], // x, y，单位px
+                    textStyle: { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                        color: '#fff',
+                        fontSize: 15,
+                    },
+                    formatter: '{value}'
+                },
+                data: [{
+                    name: "",
+                    value: 30
+                }]
+            },
+            {
+                type: 'pie',
+                zlevel: 20,
+                silent: true,
+                radius: ['60%', '59%'],
+                hoverAnimation: false,
+                color: '#2dc0c9',
+                // animation:false,
+                data: [1],
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                }
+            },
+            {
+                name: '中间环形图',
+                type: 'pie',
+                radius: ['35%', '55%'],
+                avoidLabelOverlap: false,
+                hoverAnimation: false,
+                itemStyle: {
+                    normal: {
+                        color: '#80ADD2',
+                        borderColor: '#3D4268',
+                    }
+                },
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center',
+    
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data: [
+                    25, 25, 25, 25, 25, 25
+                ]
+            },
+        ]
+    };
+    
+    function _pie1() {
+        let dataArr = [];
+        for (var i = 0; i < 8; i++) {
+    
+            dataArr.push({
+                name: (i + 1).toString(),
+                value: 20,
+                itemStyle: {
+                    normal: {
+                        color: "rgba(88,142,197,0.4)",
+                        borderWidth: 0,
+                        borderColor: "rgba(0,0,0,0)"
+                    }
+                }
+            })
+    
+        }
+        return dataArr
+    
+    }
+    
+    function _pie2() {
+        let dataArr = [];
+        for (var i = 0; i < 8; i++) {
+            if (i % 2 === 0) {
+                dataArr.push({
+                    name: (i + 1).toString(),
+                    value: 25,
+                    itemStyle: {
+                        normal: {
+                            color: "rgba(88,142,197,0.5)",
+                            borderWidth: 0,
+                            borderColor: "rgba(0,0,0,0)"
+                        }
+                    }
+                })
+            } else {
+                dataArr.push({
+                    name: (i + 1).toString(),
+                    value: 20,
+                    itemStyle: {
+                        normal: {
+                            color: "rgba(0,0,0,0)",
+                            borderWidth: 0,
+                            borderColor: "rgba(0,0,0,0)"
+                        }
+                    }
+                })
+            }
+    
+        }
+        return dataArr
+    
+    }
+    
+    function _pie3() {
+        let dataArr = [];
+        for (var i = 0; i < 100; i++) {
+            if (i % 2 === 0) {
+                dataArr.push({
+                    name: (i + 1).toString(),
+                    value: 25,
+                    itemStyle: {
+                        normal: {
+                            color: "rgb(126,190,255)",
+                            borderWidth: 0,
+                            borderColor: "rgba(0,0,0,0)"
+                        }
+                    }
+                })
+            } else {
+                dataArr.push({
+                    name: (i + 1).toString(),
+                    value: 20,
+                    itemStyle: {
+                        normal: {
+                            color: "rgba(0,0,0,0)",
+                            borderWidth: 0,
+                            borderColor: "rgba(0,0,0,0)"
+                        }
+                    }
+                })
+            }
+    
+        }
+        return dataArr
+    
+    }
+    
+    function _pieData(data) {
+        let _data = data;
+        let dataArr = [];
+        for (var i = 0; i < 5; i++) {
+            if (i === 2) {
+                let dt = (data[0].unit) ? 25 : (Number(data[0].value));
+                dataArr.push({
+                    name: (i + 1).toString(),
+                    value: dt,
+                    itemStyle: {
+                        normal: {
+    
+                            color: new echarts.graphic.LinearGradient(0, 1, 1, 0, [{
+                                offset: 0,
+                                color: 'rgb(147,187,216)'
+                            }, {
+                                offset: 1,
+                                color: '#588ec5'
+                            }]),
+                            borderWidth: 0,
+                            borderColor: "rgba(0,0,0,0.4)"
+    
+                        }
+                    }
+                })
+            } else {
+                let dta = (data[0].unit) ? 25 : (1 - Number(data[0].value)) / 4;
+                dataArr.push({
+                    name: (i + 1).toString(),
+                    value: dta,
+                    itemStyle: {
+                        normal: {
+                            color: "rgba(0,0,0,0)",
+                            borderWidth: 0,
+                            borderColor: "rgba(0,0,0,0)"
+                        }
+                    }
+                })
+            }
+    
+        }
+        //console.log(dataArr)
+        return dataArr
+    }
+    
+    
+    //鼠标事件：'click'，'dblclick'，'mousedown'，'mouseup'，'mouseover'，'mouseout'，'globalout'。
+    
+    myChart.on('mouseover', function(params) {
+        stopTimer();
+    });
+    
+    myChart.on('mouseout', function(params) {
+        startTimer();
+    });
+    
+    
+    var timer;
+    
+    function doing() {
+        let option = myChart.getOption();
+        option.series[3].startAngle = option.series[3].startAngle - 1;
+        option.series[6].data[0].value = option.series[6].data[0].value + 1;
+        myChart.setOption(option);
+    
+    }
+    
+    function startTimer() {
+    
+        timer = setInterval(doing, 100);
+    
+    }
+    
+    function stopTimer() {
+    
+        clearInterval(timer);
+    
+        xzTimer = null;
+    
+    }
+    
+    setTimeout(startTimer, 50000);
+    
+    //3.把配置给实例对象
+    myChart.setOption(option);
+    // 4. 让图表跟随屏幕自动的去适应
+    window.addEventListener("resize", function() {
+        myChart.resize();
+    }); 
+})
+
+//入口函数--空调概况   空调使用率
+$(function(){
+     //1.实例化对象
+     var myChart = echarts.init(document.querySelector(".overview .echarts .useratio"));
+    
+     let num = 0;
+     var option = {
+        backgroundColor: '#00020D',
+        title: [{
+            text: 'Ratio',
+            x: 'center',
+            top: '52%',
+            textStyle: {
+                color: '#fdf914',
+                fontSize: 10,
+                fontWeight: '100',
+            }
+        }, {
+            text: '60%',
+            x: 'center',
+            top: '42%',
+            textStyle: {
+                fontSize: '10',
+                color: '#fdf914',
+                fontFamily: 'Lato',
+                foontWeight: '600',
+            },
+        }],
+        polar: {
+            radius: ['44%', '50%'],
+            center: ['50%', '50%'],
+        },
+        angleAxis: {
+            max: 100,
+            show: false,
+        },
+        radiusAxis: {
+            type: 'category',
+            show: true,
+            axisLabel: {
+                show: false,
+            },
+            axisLine: {
+                show: false,
+
+            },
+            axisTick: {
+                show: false
+            },
+        },
+        series: [
+            {
+                name: '',
+                type: 'bar',
+                roundCap: true,
+                barWidth: 60,
+                showBackground: true,
+                backgroundStyle: {
+                    color: 'rgba(66, 66, 66, .3)',
+                },
+                data: [60],
+                coordinateSystem: 'polar',
+
+                itemStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+                            offset: 0,
+                            color: '#fdf914'
+                        }, {
+                            offset: 1,
+                            color: '#38a700'
+                        }]),
+                    }
+                }
+
+            }, 
+            {
+                type: 'gauge',
+                name: '',
+                radius: '57%',
+                startAngle: '0',
+                endAngle: '-359.99',
+                splitNumber: '200',
+                center: ['50%', '50%'],
+                pointer: {
+                    show: false
+                },
+                title: {
+                    show: false
+                },
+                detail: {
+                    show: false
+                },
+                data: [{
+                    value: 95,
+                    name: ''
+                }],
+                axisLine: {
+                    lineStyle: {
+                        width: 20,
+                        opacity: 0
+                    }
+                },
+                axisTick: {
+                    show: false
+                },
+                splitLine: {
+                    show: true,
+                    length: 13,
+                    lineStyle: {
+                        color: {
+                            type: 'linear',
+                            x: 1,
+                            y: 0,
+                            x2: 0,
+                            y2: 0,
+                            colorStops: [{
+                                offset: 0,
+                                color: '#111'
+                            }, {
+                                offset: 0.5,
+                                color: 'rgba(66, 66, 66, 1)',
+                            }, {
+                                offset: 1,
+                                color: '#111'
+                            }],
+                            globalCoord: false
+                        },
+                        width: 1,
+                        type: 'solid',
+                    },
+                },
+                axisLabel: {
+                    show: false
+                }
+            },
+            {
+                name: '',
+                type: 'pie',
+                startAngle: 90,
+                radius: ['60%', '62%'],
+                hoverAnimation: false,
+                center: ['50%', '50%'],
+                itemStyle: {
+                    normal: {
+                        labelLine: {
+                            show: false
+                        },
+                        color: 'rgba(66, 66, 66, .4)',
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(253, 249, 20, .3)',
+                    }
+                },
+                data: [{
+                    value: 100,
+
+                }]
+            },
+            {
+                name: '',
+                type: 'pie',
+                startAngle: 90,
+                radius: ['62.5%', '64%'],
+                hoverAnimation: false,
+                center: ['50%', '50%'],
+                itemStyle: {
+                    normal: {
+                        labelLine: {
+                            show: false
+                        },
+                        color: 'rgba(66, 66, 66, .3)',
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(253, 249, 20, .3)',
+                    }
+                },
+                data: [{
+                    value: 100,
+
+                }]
+            },
+            {
+                name: '',
+                type: 'pie',
+                startAngle: 90,
+                radius: ['64.5%', '65.8%'],
+                hoverAnimation: false,
+                center: ['50%', '50%'],
+                itemStyle: {
+                    normal: {
+                        labelLine: {
+                            show: false
+                        },
+                        color: 'rgba(66, 66, 66, .2)',
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(253, 249, 20, .3)',
+                    }
+                },
+                data: [{
+                    value: 100,
+
+                }]
+            },
+            {
+                name: '',
+                type: 'pie',
+                startAngle: 90,
+                radius: ['66.5%', '67.5%'],
+                hoverAnimation: false,
+                center: ['50%', '50%'],
+                itemStyle: {
+                    normal: {
+                        labelLine: {
+                            show: false
+                        },
+                        color: 'rgba(66, 66, 66, .1)',
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(253, 249, 20, .3)',
+                    }
+                },
+                data: [{
+                    value: 100,
+
+                }]
+            },
+            {
+                name: "",
+                type: 'custom',
+                coordinateSystem: "none",
+                renderItem: function(params, api) {
+                    return {
+                        type: 'arc',
+                        shape: {
+                            cx: api.getWidth() / 2,
+                            cy: api.getHeight() / 2,
+                            r: Math.min(api.getWidth(), api.getHeight()) / 2 * 0.545,
+                            startAngle: (0+num) * Math.PI / 180,
+                            endAngle: (1+num) * Math.PI / 180
+                        },
+                        style: {
+                            stroke: "#fdf914",
+                            fill: "transparent",
+                            lineWidth: 5
+                        },
+                        silent: true
+                    };
+                },
+                data: [0]
+            },
+        ]
+    };
+    function numb(){
+        num = num+5
+        myChart.setOption(option, true)
+    }
+    setInterval(function() {
+        numb()
+    }, 100);
+     
+     //3.把配置给实例对象
+     myChart.setOption(option);
+     // 4. 让图表跟随屏幕自动的去适应
+     window.addEventListener("resize", function() {
+         myChart.resize();
+     }); 
+})
+
+//入口函数--空调概况   温度
+$(function(){
+    //1.实例化对象
+    var myChart = echarts.init(document.querySelector(".overview .echarts .temper"));
+   
+    let value = 50;
+    let title = '告警数';
+    let int = value.toFixed(2).split('.')[0];
+    let float = value.toFixed(2).split('.')[1];
+
+    var option = {
+        backgroundColor: '#00020D',
+        title: {
+            text: '{a|'+ int +'}\n{c|'+ title +'}',
+            x: 'center',
+            y: 'center',
+            textStyle: {
+                rich:{
+                    a: {
+                        fontSize: 10,
+                        color: '#29EEF3'
+                    },
+                    b: {
+                        fontSize: 10,
+                        color: '#29EEF3',
+                        padding: [0,0,14,0]
+                    },
+                    c: {
+                        fontSize: 10,
+                        color: '#FF0000',
+                        padding: [5,0]
+                    }
+                }
+            }
+        },
+        series: [
+            {
+                type: 'gauge',
+                radius: '60%',
+                clockwise: false,
+                startAngle: '90',
+                endAngle: '-269.9999',
+                splitNumber: 25,
+                detail: {
+                    offsetCenter: [0, -20],
+                    formatter: ' '
+                },
+                pointer: {
+                    show: false
+                },
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: [
+                            [0, '#2CFAFC'],
+                            [52 / 100, '#1DE2A4'],
+                            [1, 'rgba(32,187,252,0.15)']
+                        ],
+                        width: 30
+                    }
+                },
+                axisTick: {
+                    show: false
+                },
+                splitLine: {
+                    show: true,
+                    length: 32,
+                    lineStyle: {
+                        color: '#051F54',
+                        width: 6
+                    }
+                },
+                axisLabel: {
+                    show: false
+                }
+            },
+            {
+                type: 'pie',
+                name: '内层细圆环',
+                radius: ['43%', '45%'],
+                hoverAnimation: false,
+                clockWise: false,
+                itemStyle: {
+                    normal: {
+                        color: '#0C355E'
+                    }
+                },
+                label: {
+                    show: false
+                },
+                data: [100]
+            },
+            {
+                type: 'pie',
+                name: '内层环',
+                radius: [0, '43%'],
+                hoverAnimation: false,
+                clockWise: false,
+                itemStyle: {
+                    normal: {
+                        color: '#02163F'
+                    }
+                },
+                label: {
+                    show: false
+                },
+                data: [100]
+            }
+        ]
+    };
+    //3.把配置给实例对象
+    myChart.setOption(option);
+    // 4. 让图表跟随屏幕自动的去适应
+    window.addEventListener("resize", function() {
+        myChart.resize();
+    }); 
+})
+
+//入口函数--空调概况   告警总数
+$(function(){
+    //1.实例化对象
+    var myChart = echarts.init(document.querySelector(".overview .echarts .alarm"));
+    let dataPie = [
+
+        {
+            value: 410,
+            name: '企业'
+        },
+        {
+            value: 380,
+            name: '政府'
+        },
+        {
+            value: 501,
+            name: '个人'
+        },
+    ];
+    let colorPie = ['#173852', '#0b2036', '#002e49'];
+    let colorWrap = ['#3087d6', '#afe1ff', '#4be1ff'];
+    let baseDataPie = [],
+        baseDataWrap = [];
+    for (var i = 0; i < dataPie.length; i++) {
+        baseDataPie.push({
+            value: dataPie[i].value,
+            name: dataPie[i].name,
+            itemStyle: {
+                normal: {
+                    borderWidth: 50,
+    
+                    borderColor: colorPie[i],
+    
+                }
+            }
+        });
+        baseDataWrap.push({
+            value: dataPie[i].value,
+            name: dataPie[i].name,
+            itemStyle: {
+                normal: {
+                    color: colorWrap[i],
+                    borderWidth: 10,
+                    borderColor: colorWrap[i],
+                    shadowBlur: 50,
+                    shadowColor: 'rgba(48, 135, 214, 0.3)',
+                }
+            }
+        }, {
+            value: 10,
+            name: '',
+            itemStyle: {
+                normal: {
+                    color: 'transparent',
+                    borderWidth: 10,
+                    borderColor: 'transparent',
+    
+                }
+            }
+        });
+    }
+    
+    
+    var option = {
+        backgroundColor: '#021228',
+        title: {
+            text: '报警总数',
+            subtext: '10,225',
+            textStyle: {
+                color: '#00b5f3',
+                fontSize: 12,
+                
+            },
+            subtextStyle: {
+                align: 'center',
+                fontSize: 18,
+                color: ['#85c7e3'],
+                fontWeight:800
+            },
+            x: '38%',
+            y: 'center',
+        },
+       
+      
+        grid: {
+            left: '1%', // 与容器左侧的距离
+            right: '1%', // 与容器右侧的距离
+            top: '1%', // 与容器顶部的距离
+            bottom: '1%', // 与容器底部的距离
+    
+        },
+        series: [
+            {
+                name: '',
+                type: 'pie',
+                clockWise: false, //顺时加载
+                hoverAnimation: false, //鼠标移入变大
+                center: ['40%', '50%'],
+                radius: ['80%', '81%'],
+                tooltip: {
+                    show: false
+                },
+                label: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data: baseDataWrap
+            },
+            {
+    
+                name: '报警',
+                type: 'pie',
+                color: colorPie,
+                selectedMode: 'single',
+                radius: ['55%', '58%'],
+                center: ['40%', '50%'],
+                hoverAnimation: false,
+                label: {
+                    normal: {
+                        show: false,
+                    }
+                },
+    
+                data: baseDataPie
+            },
+    
+        ]
+    };
+  
+    //3.把配置给实例对象
+    myChart.setOption(option);
+
+    // 4. 让图表跟随屏幕自动的去适应
+    window.addEventListener("resize", function() {
+        myChart.resize();
+    }); 
+})
 
 // 入口函数 ---设备监控
 $(function(){

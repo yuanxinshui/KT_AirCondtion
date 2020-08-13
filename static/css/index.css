@@ -75,8 +75,12 @@ header .showTime {
 
 .overview .data {
     height: 150px;
-    background-color: url(../../resources/images/rect.png);
+    /* background-image: url(../../resources/images/rect.png); */
     margin-top: 3px;
+}
+
+.overview .item p {
+  padding-left: 20px;
 }
 
 .overview .data .item{
@@ -84,6 +88,7 @@ header .showTime {
     width: 25%;
     height: 100%;
     padding-top: 10px;
+    padding-left: 15px;
 }
 
 .overview .data .item .echarts{
@@ -98,6 +103,20 @@ header .showTime {
     color: #0bace6;
     font-size: 8px;
 }
+
+.overview .data .item .useratio{
+    height: 100%;
+}
+
+.overview .data .item .alarm{
+    height: 100%;
+}
+
+.overview .data .item .temper{
+    height: 100%;
+}
+
+
 
 
 /* 1.2故障设备监测 */
