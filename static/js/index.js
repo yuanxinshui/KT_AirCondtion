@@ -458,7 +458,7 @@ $(function(){
      var option = {
         backgroundColor: '#00020D',
         title: [{
-            text: 'Ratio',
+           
             x: 'center',
             top: '52%',
             textStyle: {
@@ -471,7 +471,7 @@ $(function(){
             x: 'center',
             top: '42%',
             textStyle: {
-                fontSize: '10',
+                fontSize: '13',
                 color: '#fdf914',
                 fontFamily: 'Lato',
                 foontWeight: '600',
@@ -715,26 +715,27 @@ $(function(){
      }); 
 })
 
-//入口函数--空调概况   温度
+//入口函数--空调概况   告警总数
 $(function(){
+    
     //1.实例化对象
-    var myChart = echarts.init(document.querySelector(".overview .echarts .temper"));
+    var myChart = echarts.init(document.querySelector(".overview .echarts .alarm"));
    
     let value = 50;
-    let title = '告警数';
+    // let title = '告警数';
     let int = value.toFixed(2).split('.')[0];
     let float = value.toFixed(2).split('.')[1];
 
     var option = {
         backgroundColor: '#00020D',
         title: {
-            text: '{a|'+ int +'}\n{c|'+ title +'}',
+            text: '{a|'+ int +'}',
             x: 'center',
             y: 'center',
             textStyle: {
                 rich:{
                     a: {
-                        fontSize: 10,
+                        fontSize: 14,
                         color: '#29EEF3'
                     },
                     b: {
@@ -833,136 +834,47 @@ $(function(){
     }); 
 })
 
-//入口函数--空调概况   告警总数
+//入口函数--空调概况   温度
 $(function(){
     //1.实例化对象
-    var myChart = echarts.init(document.querySelector(".overview .echarts .alarm"));
-    let dataPie = [
-
-        {
-            value: 410,
-            name: '企业'
-        },
-        {
-            value: 380,
-            name: '政府'
-        },
-        {
-            value: 501,
-            name: '个人'
-        },
-    ];
-    let colorPie = ['#173852', '#0b2036', '#002e49'];
-    let colorWrap = ['#3087d6', '#afe1ff', '#4be1ff'];
-    let baseDataPie = [],
-        baseDataWrap = [];
-    for (var i = 0; i < dataPie.length; i++) {
-        baseDataPie.push({
-            value: dataPie[i].value,
-            name: dataPie[i].name,
-            itemStyle: {
-                normal: {
-                    borderWidth: 50,
+    var myChart = echarts.init(document.querySelector(".overview .echarts .temper"));
     
-                    borderColor: colorPie[i],
-    
-                }
-            }
-        });
-        baseDataWrap.push({
-            value: dataPie[i].value,
-            name: dataPie[i].name,
-            itemStyle: {
-                normal: {
-                    color: colorWrap[i],
-                    borderWidth: 10,
-                    borderColor: colorWrap[i],
-                    shadowBlur: 50,
-                    shadowColor: 'rgba(48, 135, 214, 0.3)',
-                }
-            }
-        }, {
-            value: 10,
-            name: '',
-            itemStyle: {
-                normal: {
-                    color: 'transparent',
-                    borderWidth: 10,
-                    borderColor: 'transparent',
-    
-                }
-            }
-        });
-    }
-    
-    
+    var value=27
+    var data = []
+    data.push(value)
+    data.push(value)
+    data.push(value)
+    data.push(value)
+    data.push(value)
     var option = {
-        backgroundColor: '#021228',
+        backgroundColor: '#00020D',
         title: {
-            text: '报警总数',
-            subtext: '10,225',
+            
             textStyle: {
-                color: '#00b5f3',
-                fontSize: 12,
-                
-            },
-            subtextStyle: {
-                align: 'center',
-                fontSize: 18,
-                color: ['#85c7e3'],
-                fontWeight:800
-            },
-            x: '38%',
-            y: 'center',
+                fontWeight: 'normal',
+                fontSize: 10,
+                color: 'rgb(97, 142, 205)'
+            }
         },
-       
-      
-        grid: {
-            left: '1%', // 与容器左侧的距离
-            right: '1%', // 与容器右侧的距离
-            top: '1%', // 与容器顶部的距离
-            bottom: '1%', // 与容器底部的距离
-    
-        },
-        series: [
-            {
-                name: '',
-                type: 'pie',
-                clockWise: false, //顺时加载
-                hoverAnimation: false, //鼠标移入变大
-                center: ['40%', '50%'],
-                radius: ['80%', '81%'],
-                tooltip: {
-                    show: false
-                },
-                label: {
-                    normal: {
-                        show: false
-                    }
-                },
-                data: baseDataWrap
+        series: [{
+            type: 'liquidFill',
+            radius: '80%',
+            data: data,
+            backgroundStyle: {
+                borderWidth: 5,
+                borderColor: 'rgb(255,0,255,0.9)',
+                color: 'rgb(255,0,255,0.01)'
             },
-            {
-    
-                name: '报警',
-                type: 'pie',
-                color: colorPie,
-                selectedMode: 'single',
-                radius: ['55%', '58%'],
-                center: ['40%', '50%'],
-                hoverAnimation: false,
-                label: {
-                    normal: {
-                        show: false,
+            label: {
+                normal: {
+                    formatter: (value).toFixed(1) + '℃',
+                    textStyle: {
+                        fontSize: 13
                     }
-                },
-    
-                data: baseDataPie
-            },
-    
-        ]
-    };
-  
+                }
+            }
+        }]
+    }
     //3.把配置给实例对象
     myChart.setOption(option);
 
