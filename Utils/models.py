@@ -5,7 +5,6 @@ import flask
 import random
 
 
-
 # 处理jsonify报错
 class MyJSONEncoder(flask.json.JSONEncoder):
 
@@ -68,7 +67,6 @@ def get_ventilator1_fault(UnitNo,dt,lineNo,trainNo):
         "where HappenTime<'{}' and UnitNo='{}' and Metro_Line_No='{}' and TrainNo='{}' order by HappenTime desc limit 1".format(dt,UnitNo,lineNo,trainNo)
     res = query(sql)
     return any(res[0])
-
 
 def get_emerinverter_fault(UnitNo,dt,lineNo,trainNo):
     """
