@@ -3,6 +3,7 @@ import pymysql
 import decimal
 import flask
 import random
+from db_model import query
 
 
 # 处理jsonify报错
@@ -17,37 +18,6 @@ class MyJSONEncoder(flask.json.JSONEncoder):
 def get_time():
     time_str =  time.strftime("%Y{}%m{}%d{} %X")
     return time_str.format("年","月","日")
-
-def get_conn():
-    """
-    :return: 连接，游标
-    """
-    # 创建连接
-    conn = pymysql.connect(host="localhost",
-                           user="root",
-                           password="7515",
-                           db="air_condition",
-                           charset="utf8")
-    # 创建游标
-    cursor = conn.cursor()# 执行完毕返回的结果集默认以元组显示
-    return conn, cursor
-
-def close_conn(conn, cursor):
-    cursor.close()
-    conn.close()
-
-def query(sql,*args):
-    """
-    封装通用查询
-    :param sql:
-    :param args:
-    :return: 返回查询到的结果，((),(),)的形式
-    """
-    conn, cursor = get_conn()
-    cursor.execute(sql,args)
-    res = cursor.fetchall()
-    close_conn(conn, cursor)
-    return res
 
 ###########################严重故障################################
 def get_ventilator2_fault(UnitNo,dt,lineNo,trainNo):
@@ -291,9 +261,20 @@ def result_rule(UnitNo,dt,lineNo,trainNo):
 
 	
 if __name__ == "__main__":
-    # print(get_r2_data())
-    # import sys
-    # print(sys.argv)
-    # get_ventilator2_fault("2#",'2020-8-17 10:30')
-    # get_ventilator1_fault("1#",'2020-8-17 10:30','5L','534')
-    print(result_rule("1#",'2020-8-17 10:30','5L','534'))
+    import argparse
+    import datetime
+    dt= datetime.datetime.now()
+    dt_str = datetime.datetime.strftime(dt,'%Y-%m-%d %H:%M:%S')
+
+    parser=argparse.ArgumentParser(description='Train Health AssessMent')
+    parser.add_argument('--UnitNo',type=str,default='1#',help='Air Condition Unit Number',choices=['1#','2#'])
+    parser.add_argument('--lineNo',type=str,default='5L',help='Subway Line Number')
+    parser.add_argument('--trainNo',type=str,default='534',help='Subway Train Number')
+    args = parser.parse_args()
+    res=result_rule(args.UnitNo,dt_str,args.lineNo,args.trainNo)
+    print('{:*^30}'.format('健康评估分数'))  # 使用“*”填充
+
+    print()
+
+    # 运行
+    # python models.py --UnitNo "2#" 

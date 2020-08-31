@@ -13,6 +13,7 @@ File Encoding         : 65001
 Date: 2020-07-23 09:51:30
 */
 
+set character set utf8;
 SET FOREIGN_KEY_CHECKS=0;
 
 
