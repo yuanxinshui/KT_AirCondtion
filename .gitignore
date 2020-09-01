@@ -1,0 +1,14 @@
+## ignore this file ##
+*.idea
+__pycache__
+*.zip
+*.jpg
+*.h5
+*.pth
+*.ckpt
+*.config
+*.gz
+*.ckpt.*
+*.ckpt
+checkpoint
+data

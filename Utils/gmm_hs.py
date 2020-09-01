@@ -11,11 +11,15 @@ import os
 import datetime
 import pickle
 import joblib
+import random
 from db_model import querydf
 import argparse
+from jupyter_client.session import utcnow as now
+import warnings
+warnings.filterwarnings("ignore", category=Warning)
 
 class GMM_HS:
-    def __init__(self, sql=None):
+    def __init__(self, sql):
         self.df=querydf(sql)
 
     #计算CV值
@@ -194,18 +198,6 @@ class GMM_HS:
         data_s['health_label']=data_s['cv'].map(self.count_gmm)
         
         return data_s
-    
-    def visiual_cv(self,df,df_all_titlle):
-        long_rolling_data_close=df['cv'].rolling(30,min_periods=1).mean()
-        plt.figure(figsize=(50,15))
-        long_rolling_data_close.plot()
-        plt.ylim((-0.1,1.1))#确认一下
-        plt.axhline(y=0.75, color='#00FF00')#画横线y=0.3
-        plt.axhline(y=0.65, color='#0000FF')#画横线y=0.3
-        plt.axhline(y=0.5, color='#FFFF00')#画横线y=0.3
-        plt.axhline(y=0.3, color='#FF0000')#画横线y=0.3
-        plt.grid()
-        
 
     def count_gmm(self,x):
         if x > 0.75:
@@ -246,39 +238,77 @@ class GMM_HS:
         return df_std
 
     
-    def result_cv(self,df,sql,UnitNo,lineNo,trainNo,path_list):
-        df['HappenTime']=pd.to_datetime(df['HappenTime'])
-        df=df.set_index('HappenTime')
-        df,drop_cols=df.process_df(df)
+def visiual_cv(self,df,df_all_titlle):
+    long_rolling_data_close=df['cv'].rolling(30,min_periods=1).mean()
+    plt.figure(figsize=(50,15))
+    long_rolling_data_close.plot()
+    plt.ylim((-0.1,1.1))#确认一下
+    plt.axhline(y=0.75, color='#00FF00')#画横线y=0.3
+    plt.axhline(y=0.65, color='#0000FF')#画横线y=0.3
+    plt.axhline(y=0.5, color='#FFFF00')#画横线y=0.3
+    plt.axhline(y=0.3, color='#FF0000')#画横线y=0.3
+    plt.grid()
 
-        df_train=df[df['TrainNo']==trainNo & df['UnitNo']==UnitNo]
 
-        CarriageNo_list=['MP1','MP2','TC1','M1','M2']
-        df_train_MP1=df_train[df_train['CarriageNo']=='MP1']
-        df_train_MP2=df_train[df_train['CarriageNo']=='MP2']
-        df_train_TC1=df_train[df_train['CarriageNo']=='TC1']
-        df_train_M1=df_train[df_train['CarriageNo']=='M1']
-        df_train_M2=df_train[df_train['CarriageNo']=='M2']
-        df_all=[df_train_MP1,df_train_MP2,df_train_TC1,df_train_M1,df_train_M2]
-        df_titlle_list=['MP1','MP2','TC1','M1','M2']
-        cols=df.columns
-        feature_list=[]
-        #3.标准化数据
-        for i in range(len(CarriageNo_list)):
-            df=df_all[i]
-            feature=df[cols[2:]]
-            df_std=gmm.std_data()
-            feature_list.append(df_std)
+def result_cv(self,sql,UnitNo,lineNo,trainNo, ):
+    gmm=GMM_HS(sql)
+    df=gmm.df
+    df['HappenTime']=pd.to_datetime(df['HappenTime'])
+    df=df.set_index('HappenTime')
+    df,drop_cols=gmm.process_df(df)
 
-        #4.训练并选择最优的模型
-        for i in range(0,5):
-            gmm.opendata_findbest(feature_list[i],df_titlle_list[i])
+    df_train=df[(df['TrainNo']==trainNo) & (df['UnitNo']==UnitNo)]
 
-        #5. 加载训练好的模型
-        df_list=[]
+    CarriageNo_list=['MP1','MP2','TC1','M1','M2']
+    df_train_MP1=df_train[df_train['CarriageNo']=='MP1']
+    df_train_MP2=df_train[df_train['CarriageNo']=='MP2']
+    df_train_TC1=df_train[df_train['CarriageNo']=='TC1']
+    df_train_M1=df_train[df_train['CarriageNo']=='M1']
+    df_train_M2=df_train[df_train['CarriageNo']=='M2']
+    df_all=[df_train_MP1,df_train_MP2,df_train_TC1,df_train_M1,df_train_M2]
+    df_title_list=['MP1','MP2','TC1','M1','M2']
+    cols=df_train.columns
+    feature_list=[]
+    #3.标准化数据
+    for i in range(len(path_list)):
+        df=df_all[i]
+        feature=df[cols[3:]]
+        df_std=gmm.std_data(feature)
+        feature_list.append(df_std)
 
-        for i in range(0,5): 
-            df_list.append(gmm.load_model(feature_list[i],path_list[i]))
+    #4.训练并选择最优的模型
+    # for i in range(0,5):
+    #     print(i)
+    #     gmm.opendata_findbest(feature_list[i],df_title_list[i])
+
+    #5. 加载训练好的模型
+    df_dict={}
+
+    for i in range(len(path_list)): 
+        print(i)
+        df_dict[CarriageNo_list[i]]=gmm.load_model(feature_list[i],path_list[i])
+    return df_dict
+
+def score_calu(self,x):
+    if x > 0.9:
+        return np.min(x*100+6*(random.random()*2-1),99.5)   #健康
+    elif x>0.8:
+        return np.min(x*100+5*(random.random()*2-1),89.9)   #亚健康
+    elif x>0.7:
+        return np.min(x*100+5*(random.random()*2-1),79.9)   #轻微故障
+    elif x>0.5:
+        return np.min(x*100+10*(random.random()*2-1),69.9)
+    else: 
+        return np.min(x*100+15*(random.random()*2-1),59.9)   #严重故障
+
+def gmm_cv_score(self,sql,UnitNo,lineNo,trainNo,path_list,CarrageNo='M1',roll_step=30):
+    df_dict=result_cv(sql,UnitNo,lineNo,trainNo,path_list)
+    df=df_dict[CarrageNo]
+    long_rolling_data=df['cv'].rolling(roll_step,min_periods=1).mean()
+    score_list=long_rolling_data.map(self.count_gmm)
+    return score_list
+        
+        
         
 
     
@@ -290,14 +320,18 @@ if __name__=="__main__":
     parser.add_argument('--trainNo',type=str,default='534',help='Subway Train Number')
 
     args = parser.parse_args()
+    
+    root_path=os.path.join(os.getcwd(),'Utils','Models')
 
-    path_list=['./Models/model_df_train_M1.pkl','./Models/model_df_train_M2.pkl','./Models/model_df_train_MP1.pkl','./Models/model_df_train_MP2.pkl','./Models/model_df_train_TC1.pkl']
+    path_list=[os.path.join(root_path,path) for path in ['model_df_train_M1.pkl','model_df_train_M2.pkl','model_df_train_MP1.pkl','model_df_train_MP2.pkl','model_df_train_TC1.pkl']]
     # 2.获取数据
     database='condition_data'
     sql="select * from "+database #  read_flag is nulland 
-    gmm=GMM_HS(sql)
-    df=gmm.df
-    gmm.result_cv(df,sql,args.UnitNo,args.lineNo,args.trainNo,path_list)
+    print('11111111111111111111111111111')
+    scores=gmm_cv_score(sql,args.UnitNo,args.lineNo,args.trainNo,path_list)
+    print(scores)
+
+    # 运行 python gmm_hs.py --UnitNo '1#'
 
     
 
