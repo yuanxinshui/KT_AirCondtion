@@ -1,5 +1,6 @@
 import pymysql
 import pandas as pd
+import time
 
 def get_conn():
     """

@@ -884,6 +884,213 @@ $(function(){
     }); 
 })
 
+//入口函数--趋势分析
+$(function(){
+
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.querySelector('.trend1  .temper_trend'));
+
+    var data=[
+        [
+            [24,40,101,134,90,230,210,230,120,230,210,120],
+            [40,64,191,324,290,430,310,213,180,200,180,79]
+        ],
+        [
+            [23,75,12,397,21,67,98,21,43,64,76,38],
+            [43,31,65,23,78,21,82,64,43,60,19,34]
+        ],
+        [
+            [34,87,32,76,98,12,32,487,39,36,29,36],
+            [56,43,98,21,56,87,143,12,43,54,12,98]
+        ],
+        [
+            [43,73,463,54,91,54,84,43,86,43,54,53],
+            [32,54,34,87,32,45,62,268,93,54,54,24]
+        ],
+
+    ]
+
+    var option = {
+        //图表标题
+        title: {
+            text: '单位 ℃',
+            // subtext: '纯属虚构'
+            textStyle:{
+                color:'#4996f5'
+            },
+            left:30,
+            top:10
+        },
+        tooltip: {
+            // trigger: 'axis'
+        },
+        //图例组件，和series里面的每一项对应
+        legend: {
+            data: ['系统1回风温度', '系统1吸气温度'],
+              textStyle:{
+                color:'#4995f4'
+            },
+            right:5,
+            top:10  
+        },
+
+        grid:{
+            left:'3%',
+            right:'4%',
+            bottom:'3%',
+            top:'30%',
+            containLabel:true
+        },
+        // toolbox: {
+        //     show: true,
+        //     feature: {
+        //         dataZoom: {
+        //             yAxisIndex: 'none'
+        //         },
+        //         dataView: {readOnly: false},
+        //         magicType: {type: ['line', 'bar']},
+        //         restore: {},
+        //         saveAsImage: {}
+        //     }
+        // },
+        
+        //x轴
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月','8月','9月','10月','11月','12月'],
+            
+            //x轴刻度
+            axisTick:{
+                show:false
+            },
+            
+            // x轴文本
+            axisLabel:{
+                color:'#438be5',
+                //文本和轴线对齐方式
+                align:'left'
+            },
+            
+            //x轴轴线
+            axisLine:{
+                lineStyle:{
+                    color:'#012b48'
+                }
+            }
+            
+        },
+        
+        //y轴
+        yAxis: {
+            type: 'value',
+            
+            //y轴最大值
+            max:500,
+            //y轴最小间隔
+            minInterval:100,
+            axisLabel: {
+                // formatter: '{value}'
+                color:'#438be5'
+            },
+            
+             //y轴刻度
+            axisTick:{
+                show:false
+            },
+            
+             //y轴轴线
+            axisLine:{
+                lineStyle:{
+                    color:'#012b48'
+                }
+            },
+            //y轴分割线
+            splitLine:{
+                lineStyle:{
+                    color:'#012b48'
+                }
+            }
+            
+        },
+        
+        //图例本身设置
+        series: [
+            {
+                name: '最高额度',
+                type: 'line',
+                //是否平滑
+                smooth:true,
+                data: [24, 40, 101, 134,90,230,210,230,120,230,210,120],
+                
+                //标记点，显示最大值最小值得
+                // markPoint: {
+                //     data: [
+                //         {type: 'max', name: '最大值'},
+                //         {type: 'min', name: '最小值'}
+                //     ]
+                // },
+                
+                //标记线  平均线
+                // markLine: {
+                //     data: [
+                //         {type: 'average', name: '平均值'}
+                //     ]
+                // }
+                
+                // //线条颜色设置
+                // lineStyle:{
+                //     color:'red'
+                // },
+                
+                //拐点样式设置
+                itemStyle:{
+                    color:'red'
+                },
+                
+                //拐点的大小
+                symbolSize:8
+                
+                //如果2个不一样就分开设置，如果两个一样就设置一个就好了
+            },
+            {
+                name: '最低额度',
+                type: 'line',
+                smooth:true,
+                //拐点的大小
+                symbolSize:8,
+                  //拐点样式设置
+                itemStyle:{
+                    color:'green'
+                },
+                data: [40,64,191,324,290,330,310,213,180,200,180,79],
+                
+            }
+        ]
+    }; 
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+
+    // 启动定时刷新图表数据
+    var index=0;
+    // 申明一个计时器
+    setInterval(function(){
+        // 1.数组下标++切换数据
+        index++;
+        if(index>3){
+            index=0;
+        };
+
+        //2.替换数据
+        option.series[0].data=data[index][0];
+        option.series[1].data=data[index][1];
+        // 3.重新渲染echarts图表
+        myChart.setOption(option)
+
+        $('.sales .head a').eq(index).addClass('active').siblings('a').removeClass('active')
+    },2000);
+});
+
 // 入口函数 ---设备监控
 $(function(){
     //1.设备监控模块（1.2）有一个tab栏切换
@@ -1045,6 +1252,11 @@ $(function(){
 
 // 入口函数-健康评估图
 $(function(){
+
+    $('.health_assess .head a').on('click',function(){
+        // 当前点击的页签添加active类，其他的兄弟页签移除这个类
+        $(this).addClass('active').siblings().removeClass('active')
+    })
     // 1实例化对象
     var myChart = echarts.init(document.querySelector(".health_assess .echarts .board"));
     

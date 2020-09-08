@@ -4,6 +4,7 @@ import decimal
 import flask
 import random
 import db_model
+import numpy as np
 
 
 # 处理jsonify报错
@@ -19,51 +20,94 @@ class MyJSONEncoder(flask.json.JSONEncoder):
 
 
 def rule_score(UnitNo,dt,lineNo,trainNo):
+
     health_score=None
-    serious_fault_res=db_model.get_ventilator1_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_ventilator2_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_emerinverter_fault(UnitNo,dt,lineNo,trainNo)+0
 
-    mid_fault_res=db_model.get_converter2_protect(UnitNo,dt,lineNo,trainNo)+db_model.get_converter1_protect(UnitNo,dt,lineNo,trainNo)+db_model.get_Condesfan2_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_Condesfan1_fault(UnitNo,dt,lineNo,trainNo)+ \
-                  db_model.get_Compress2_LV_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_Compress1_LV_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_Compress2_HV_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_Compress1_HV_fault(UnitNo,dt,lineNo,trainNo) + \
-                  db_model.get_Compress1_communite_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_Compress2_communite_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_IO_communite_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_Compress1_Ov_Protect(UnitNo,dt,lineNo,trainNo)+ \
-                  db_model.get_Compress2_Ov_Protect(UnitNo,dt,lineNo,trainNo)+0
+    weights=np.array([40,40,40,40,60,60,80,80,40,40,40,40,40,40,80,20,20,100])
+    faults=np.array([db_model.get_Compress1_Ov_Protect(UnitNo,dt,lineNo,trainNo),db_model.get_Compress2_Ov_Protect(UnitNo,dt,lineNo,trainNo),db_model.get_converter2_protect(UnitNo,dt,lineNo,trainNo),db_model.get_converter1_protect(UnitNo,dt,lineNo,trainNo),
+            db_model.get_FreshAir_Sensor_fault(UnitNo,dt,lineNo,trainNo),db_model.get_ReturnAir_Sensor_fault(UnitNo,dt,lineNo,trainNo),db_model.get_Condesfan2_fault(UnitNo,dt,lineNo,trainNo),db_model.get_Condesfan1_fault(UnitNo,dt,lineNo,trainNo),
+            db_model.get_Compress1_LV_fault(UnitNo,dt,lineNo,trainNo),db_model.get_Compress2_LV_fault(UnitNo,dt,lineNo,trainNo),db_model.get_Compress2_HV_fault(UnitNo,dt,lineNo,trainNo),db_model.get_Compress2_HV_fault(UnitNo,dt,lineNo,trainNo),
+            db_model.get_Compress1_communite_fault(UnitNo,dt,lineNo,trainNo),db_model.get_Compress2_communite_fault(UnitNo,dt,lineNo,trainNo),db_model.get_IO_communite_fault(UnitNo,dt,lineNo,trainNo),db_model.get_FreshAir_Valve_fault(UnitNo,dt,lineNo,trainNo),
+            db_model.get_ReturnAir_Valve_fault(UnitNo,dt,lineNo,trainNo),(db_model.get_ventilator1_fault(UnitNo,dt,lineNo,trainNo) or db_model.get_ventilator2_fault(UnitNo,dt,lineNo,trainNo))]).astype(int)
+           
+    temp=weights*faults
 
-    slight_fault_res=db_model.et_FreshAir_Sensor_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_ReturnAir_Sensor_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_FreshAir_Valve_fault(UnitNo,dt,lineNo,trainNo)+ \
-                     db_model.get_ReturnAir_Valve_fault(UnitNo,dt,lineNo,trainNo)+0
-    # 正常:85-100 分
-    if serious_fault_res+mid_fault_res+slight_fault_res==0:
-        health_score=100-15*random.random()
-        return health_score
+    if np.max(temp)<20:   #设正常
+        health_score=100-10*random.random()
     
-    elif slight_fault_res>0:
-        if slight_fault_res==1:
-            health_score=85-10*random.random()
-        if slight_fault_res==2:
-            health_score=85-12*random.random()
-        if slight_fault_res>2:
-            health_score=85-14*random.random()
-        return health_score
-
-    elif mid_fault_res>0:
-        if 3>=slight_fault_res>=1:
-            health_score=70-15*random.random()
-        if 6>=slight_fault_res>3:
-            health_score=66-15*random.random()
-        if slight_fault_res>6:
-            health_score=63-15*random.random()
-        return health_score
+    if temp[0]==temp[1]==40:
+        weights[0]=weights[1]=30
+        temp=weights*faults
     
-    elif serious_fault_res>0:
-        if  serious_fault_res==1:
-            health_score=60-30*random.random()
-        if  serious_fault_res==2:
-            health_score=50-30*random.random()
-        if  slight_fault_res==3:
-            health_score=45-30*random.random()
-        return health_score
-    # 严重故障
-    else:
-        health_score=100-15*random.random()
-        return health_score
+    if temp[2]==temp[3]==40:
+        weights[2]=weights[3]=30
+        temp=weights*faults
+    
+    if temp[4]==temp[5]==60:
+        weights[4]=weights[5]=45
+        temp=weights*faults
+    
+    if temp[8]==temp[9]==40:
+        weights[8]=weights[9]=30
+        temp=weights*faults
+    
+    if temp[10]==temp[11]==40:
+        weights[8]=weights[9]=30
+        temp=weights*faults
+    
+    health_score=100-(np.sum(temp) +10*(2*random.random()-1))
+
+    if np.sum(temp)>=100:
+        health_score=100-85*random.random()
+    return health_score
+
+    
+
+
+    # serious_fault_res=db_model.get_ventilator1_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_ventilator2_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_emerinverter_fault(UnitNo,dt,lineNo,trainNo)+0
+
+    # mid_fault_res=db_model.get_converter2_protect(UnitNo,dt,lineNo,trainNo)+db_model.get_converter1_protect(UnitNo,dt,lineNo,trainNo)+db_model.get_Condesfan2_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_Condesfan1_fault(UnitNo,dt,lineNo,trainNo)+ \
+    #               db_model.get_Compress2_LV_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_Compress1_LV_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_Compress2_HV_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_Compress1_HV_fault(UnitNo,dt,lineNo,trainNo) + \
+    #               db_model.get_Compress1_communite_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_Compress2_communite_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_IO_communite_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_Compress1_Ov_Protect(UnitNo,dt,lineNo,trainNo)+ \
+    #               db_model.get_Compress2_Ov_Protect(UnitNo,dt,lineNo,trainNo)+0
+
+    # slight_fault_res=db_model.et_FreshAir_Sensor_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_ReturnAir_Sensor_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_FreshAir_Valve_fault(UnitNo,dt,lineNo,trainNo)+ \
+    #                  db_model.get_ReturnAir_Valve_fault(UnitNo,dt,lineNo,trainNo)+0
+    # # 正常:85-100 分
+    # if serious_fault_res+mid_fault_res+slight_fault_res==0:
+    #     health_score=100-15*random.random()
+    #     return health_score
+    
+    # elif slight_fault_res>0:
+    #     if slight_fault_res==1:
+    #         health_score=85-10*random.random()
+    #     if slight_fault_res==2:
+    #         health_score=85-12*random.random()
+    #     if slight_fault_res>2:
+    #         health_score=85-14*random.random()
+    #     return health_score
+
+    # elif mid_fault_res>0:
+    #     if 3>=slight_fault_res>=1:
+    #         health_score=70-15*random.random()
+    #     if 6>=slight_fault_res>3:
+    #         health_score=66-15*random.random()
+    #     if slight_fault_res>6:
+    #         health_score=63-15*random.random()
+    #     return health_score
+    
+    # elif serious_fault_res>0:
+    #     if  serious_fault_res==1:
+    #         health_score=60-30*random.random()
+    #     if  serious_fault_res==2:
+    #         health_score=50-30*random.random()
+    #     if  slight_fault_res==3:
+    #         health_score=45-30*random.random()
+    #     return health_score
+    # # 严重故障
+    # else:
+    #     health_score=100-15*random.random()
+    #     return health_score
 
     
 

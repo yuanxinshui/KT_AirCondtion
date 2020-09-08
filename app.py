@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import  request
 from flask import jsonify
+from flask import render_template
 import time
 from Utils.Models.rule_base import MyJSONEncoder
 from Utils.Models.health_score import health_result_score

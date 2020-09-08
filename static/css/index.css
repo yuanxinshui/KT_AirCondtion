@@ -260,7 +260,7 @@ header .showTime {
 }
 
 .column:nth-child(2) .subway-line .echarts {
-    height: 435px;
+    height: 335px;
     background-color: rgba(255, 255, 255, 0.1);
     margin-top: 15px;
 }
@@ -280,8 +280,16 @@ header .showTime {
 }
 
 .column:nth-child(2) .trend1 {
-    height: 200px;
+    height: 300px;
     margin-top: 20px;
+}
+
+.trend1 .echarts{
+    height: 100%;
+}
+
+.trend1  .temper_trend{
+    height: 100%;
 }
 
 .column:nth-child(2) .trend2 {
