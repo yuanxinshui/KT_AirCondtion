@@ -12,7 +12,7 @@ import datetime
 import pickle
 import joblib
 import random
-from db_model import querydf
+from .db_model import querydf
 import argparse
 from jupyter_client.session import utcnow as now
 import warnings
@@ -173,7 +173,7 @@ class GMM_HS:
         #保存normal_obj模型
         #保存训练好的模型文件
         dt=datetime.datetime.now()
-        dt_str=self.time_to_str(dt)
+        dt_str=time_to_str(dt)
         joblib.dump(normal_obj, './Models/model_{}.pkl'.format(df_name),compress=3)
     #     导入训练好的模型文件
     #     clf = joblib.load('onlycan_opendata_normal_obj_model0.pkl') 
@@ -195,25 +195,11 @@ class GMM_HS:
         #计算每一行的cv值，存在data_s的cv列中         
         data_s['cv']=data_s.apply(lambda row:gmm_apply(row,k,normal_obj), axis=1)
         c = data_s['cv'].mean()
-        data_s['health_label']=data_s['cv'].map(self.count_gmm)
+        data_s['health_label']=data_s['cv'].map(count_gmm)
         
         return data_s
 
-    def count_gmm(self,x):
-        if x > 0.75:
-            return 0   #健康
-        elif x>0.65:
-            return 1   #亚健康
-        elif x>0.5:
-            return 2   #轻微故障
-        elif x>0.3:
-            return 3
-        else: 
-            return 4   #严重故障
 
-    def time_to_str(self,dt):
-        dt_str=dt.strftime('%Y-%m-%d %H:%M:%S')
-        return dt_str
 
     
     def process_df(self,df):
@@ -237,8 +223,24 @@ class GMM_HS:
         df_std.columns=df.columns
         return df_std
 
+def time_to_str(dt):
+        dt_str=dt.strftime('%Y-%m-%d %H:%M:%S')
+        return dt_str
+
+
+def count_gmm(x):
+    if x > 0.75:
+        return 0   #健康
+    elif x>0.65:
+        return 1   #亚健康
+    elif x>0.5:
+        return 2   #轻微故障
+    elif x>0.3:
+        return 3
+    else: 
+        return 4   #严重故障
     
-def visiual_cv(self,df,df_all_titlle):
+def visiual_cv(df,df_all_titlle):
     long_rolling_data_close=df['cv'].rolling(30,min_periods=1).mean()
     plt.figure(figsize=(50,15))
     long_rolling_data_close.plot()
@@ -250,31 +252,16 @@ def visiual_cv(self,df,df_all_titlle):
     plt.grid()
 
 
-def result_cv(self,sql,UnitNo,lineNo,trainNo, ):
+def result_cv(sql,model_path):
     gmm=GMM_HS(sql)
     df=gmm.df
     df['HappenTime']=pd.to_datetime(df['HappenTime'])
     df=df.set_index('HappenTime')
     df,drop_cols=gmm.process_df(df)
-
-    df_train=df[(df['TrainNo']==trainNo) & (df['UnitNo']==UnitNo)]
-
-    CarriageNo_list=['MP1','MP2','TC1','M1','M2']
-    df_train_MP1=df_train[df_train['CarriageNo']=='MP1']
-    df_train_MP2=df_train[df_train['CarriageNo']=='MP2']
-    df_train_TC1=df_train[df_train['CarriageNo']=='TC1']
-    df_train_M1=df_train[df_train['CarriageNo']=='M1']
-    df_train_M2=df_train[df_train['CarriageNo']=='M2']
-    df_all=[df_train_MP1,df_train_MP2,df_train_TC1,df_train_M1,df_train_M2]
-    df_title_list=['MP1','MP2','TC1','M1','M2']
-    cols=df_train.columns
-    feature_list=[]
+   
+    cols=df.columns
     #3.标准化数据
-    for i in range(len(path_list)):
-        df=df_all[i]
-        feature=df[cols[3:]]
-        df_std=gmm.std_data(feature)
-        feature_list.append(df_std)
+    df_std=gmm.std_data(df)
 
     #4.训练并选择最优的模型
     # for i in range(0,5):
@@ -282,53 +269,50 @@ def result_cv(self,sql,UnitNo,lineNo,trainNo, ):
     #     gmm.opendata_findbest(feature_list[i],df_title_list[i])
 
     #5. 加载训练好的模型
-    df_dict={}
+    
+    df_result=gmm.load_model(df_std,model_path)
+    return df_result
 
-    for i in range(len(path_list)): 
-        print(i)
-        df_dict[CarriageNo_list[i]]=gmm.load_model(feature_list[i],path_list[i])
-    return df_dict
-
-def score_calu(self,x):
+def score_calu(x):
     if x > 0.9:
-        return np.min(x*100+6*(random.random()*2-1),99.5)   #健康
+        return np.round(np.min(np.array([x*100+6*(random.random()*2-1),99.5])),2)   #健康
     elif x>0.8:
-        return np.min(x*100+5*(random.random()*2-1),89.9)   #亚健康
+        return np.round(np.min(np.array([x*100+5*(random.random()*2-1),89.9])),2)   #亚健康
     elif x>0.7:
-        return np.min(x*100+5*(random.random()*2-1),79.9)   #轻微故障
+        return np.round(np.min(np.array([x*100+5*(random.random()*2-1),79.9])),2)   #轻微故障
     elif x>0.5:
-        return np.min(x*100+10*(random.random()*2-1),69.9)
+        return np.round(np.min(np.array([x*100+10*(random.random()*2-1),69.9])),2)
     else: 
-        return np.min(x*100+15*(random.random()*2-1),59.9)   #严重故障
+        return np.round(np.min(np.array([x*100+15*(random.random()*2-1),59.9])),2)  #严重故障
 
-def gmm_cv_score(self,sql,UnitNo,lineNo,trainNo,path_list,CarrageNo='M1',roll_step=30):
-    df_dict=result_cv(sql,UnitNo,lineNo,trainNo,path_list)
-    df=df_dict[CarrageNo]
-    long_rolling_data=df['cv'].rolling(roll_step,min_periods=1).mean()
-    score_list=long_rolling_data.map(self.count_gmm)
+def gmm_cv_score(dt,UnitNo,lineNo,trainNo,model_path,CarrageNo='M1',roll_step=30):
+    database='condition_data'
+    sql="select * from "+database +" where Metro_Line_No='{}' and TrainNo='{}' and CarriageNo='{}' and UnitNo='{}' and HappenTime <='{}' order by HappenTime Desc limit 1,100  ".format(lineNo,trainNo,CarrageNo,UnitNo,dt) #  read_flag is nulland 
+    df_res=result_cv(sql,model_path)
+    roll_df_cv=df_res['cv'].rolling(roll_step,min_periods=1).mean()
+    score_list=roll_df_cv.map(score_calu)
     return score_list
         
         
         
-
     
 if __name__=="__main__":
     # 1.设置动态参数
     parser=argparse.ArgumentParser(description='Train Health AssessMent')
-    parser.add_argument('--UnitNo',type=str,default='1#',help='Air Condition Unit Number',choices=['1#','2#'])
     parser.add_argument('--lineNo',type=str,default='5L',help='Subway Line Number')
     parser.add_argument('--trainNo',type=str,default='534',help='Subway Train Number')
-
+    parser.add_argument('--UnitNo',type=str,default='1#',help='Air Condition Unit Number',choices=['1#','2#'])
+    parser.add_argument('--CarrageNo',type=str,default='M1',help='Air Condition Carrage Number',choices=['MP1','MP2','TC1','M1','M2'])
+    parser.add_argument('--Model',type=str,default='model_df_train_M1.pkl',help='Model Name')
     args = parser.parse_args()
     
     root_path=os.path.join(os.getcwd(),'Utils','Models')
-
-    path_list=[os.path.join(root_path,path) for path in ['model_df_train_M1.pkl','model_df_train_M2.pkl','model_df_train_MP1.pkl','model_df_train_MP2.pkl','model_df_train_TC1.pkl']]
+    model_path=os.path.join(root_path,args.Model)
     # 2.获取数据
-    database='condition_data'
-    sql="select * from "+database #  read_flag is nulland 
+    dt=datetime.datetime.now()
+    dt_str=time_to_str(dt)
     print('11111111111111111111111111111')
-    scores=gmm_cv_score(sql,args.UnitNo,args.lineNo,args.trainNo,path_list)
+    scores=gmm_cv_score(dt_str,args.UnitNo,args.lineNo,args.trainNo,model_path,args.CarrageNo)
     print(scores)
 
     # 运行 python gmm_hs.py --UnitNo '1#'

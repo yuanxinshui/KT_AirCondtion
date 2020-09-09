@@ -3,7 +3,11 @@ import pymysql
 import decimal
 import flask
 import random
-import db_model
+# import os,sys
+# curPath = os.path.abspath(os.path.dirname(__file__))
+# rootPath = os.path.split(curPath)[0]
+# sys.path.append(rootPath)
+from .db_model import *
 import numpy as np
 
 
@@ -24,11 +28,11 @@ def rule_score(UnitNo,dt,lineNo,trainNo):
     health_score=None
 
     weights=np.array([40,40,40,40,60,60,80,80,40,40,40,40,40,40,80,20,20,100])
-    faults=np.array([db_model.get_Compress1_Ov_Protect(UnitNo,dt,lineNo,trainNo),db_model.get_Compress2_Ov_Protect(UnitNo,dt,lineNo,trainNo),db_model.get_converter2_protect(UnitNo,dt,lineNo,trainNo),db_model.get_converter1_protect(UnitNo,dt,lineNo,trainNo),
-            db_model.get_FreshAir_Sensor_fault(UnitNo,dt,lineNo,trainNo),db_model.get_ReturnAir_Sensor_fault(UnitNo,dt,lineNo,trainNo),db_model.get_Condesfan2_fault(UnitNo,dt,lineNo,trainNo),db_model.get_Condesfan1_fault(UnitNo,dt,lineNo,trainNo),
-            db_model.get_Compress1_LV_fault(UnitNo,dt,lineNo,trainNo),db_model.get_Compress2_LV_fault(UnitNo,dt,lineNo,trainNo),db_model.get_Compress2_HV_fault(UnitNo,dt,lineNo,trainNo),db_model.get_Compress2_HV_fault(UnitNo,dt,lineNo,trainNo),
-            db_model.get_Compress1_communite_fault(UnitNo,dt,lineNo,trainNo),db_model.get_Compress2_communite_fault(UnitNo,dt,lineNo,trainNo),db_model.get_IO_communite_fault(UnitNo,dt,lineNo,trainNo),db_model.get_FreshAir_Valve_fault(UnitNo,dt,lineNo,trainNo),
-            db_model.get_ReturnAir_Valve_fault(UnitNo,dt,lineNo,trainNo),(db_model.get_ventilator1_fault(UnitNo,dt,lineNo,trainNo) or db_model.get_ventilator2_fault(UnitNo,dt,lineNo,trainNo))]).astype(int)
+    faults=np.array([get_Compress1_Ov_Protect(UnitNo,dt,lineNo,trainNo),get_Compress2_Ov_Protect(UnitNo,dt,lineNo,trainNo),get_converter2_protect(UnitNo,dt,lineNo,trainNo),get_converter1_protect(UnitNo,dt,lineNo,trainNo),
+            get_FreshAir_Sensor_fault(UnitNo,dt,lineNo,trainNo),get_ReturnAir_Sensor_fault(UnitNo,dt,lineNo,trainNo),get_Condesfan2_fault(UnitNo,dt,lineNo,trainNo),get_Condesfan1_fault(UnitNo,dt,lineNo,trainNo),
+            get_Compress1_LV_fault(UnitNo,dt,lineNo,trainNo),get_Compress2_LV_fault(UnitNo,dt,lineNo,trainNo),get_Compress2_HV_fault(UnitNo,dt,lineNo,trainNo),get_Compress2_HV_fault(UnitNo,dt,lineNo,trainNo),
+            get_Compress1_communite_fault(UnitNo,dt,lineNo,trainNo),get_Compress2_communite_fault(UnitNo,dt,lineNo,trainNo),get_IO_communite_fault(UnitNo,dt,lineNo,trainNo),get_FreshAir_Valve_fault(UnitNo,dt,lineNo,trainNo),
+            get_ReturnAir_Valve_fault(UnitNo,dt,lineNo,trainNo),(get_ventilator1_fault(UnitNo,dt,lineNo,trainNo) or get_ventilator2_fault(UnitNo,dt,lineNo,trainNo))]).astype(int)
            
     temp=weights*faults
 
@@ -55,24 +59,24 @@ def rule_score(UnitNo,dt,lineNo,trainNo):
         weights[8]=weights[9]=30
         temp=weights*faults
     
-    health_score=100-(np.sum(temp) +10*(2*random.random()-1))
+    loss_socre=np.min(np.array([np.sum(temp) +10*(2*random.random()-1),90+2*(2*random.random()-1)]))
+    
+    health_score=np.round(100-loss_socre,2)
 
-    if np.sum(temp)>=100:
-        health_score=100-85*random.random()
     return health_score
 
     
 
 
-    # serious_fault_res=db_model.get_ventilator1_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_ventilator2_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_emerinverter_fault(UnitNo,dt,lineNo,trainNo)+0
+    # serious_fault_res=get_ventilator1_fault(UnitNo,dt,lineNo,trainNo)+get_ventilator2_fault(UnitNo,dt,lineNo,trainNo)+get_emerinverter_fault(UnitNo,dt,lineNo,trainNo)+0
 
-    # mid_fault_res=db_model.get_converter2_protect(UnitNo,dt,lineNo,trainNo)+db_model.get_converter1_protect(UnitNo,dt,lineNo,trainNo)+db_model.get_Condesfan2_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_Condesfan1_fault(UnitNo,dt,lineNo,trainNo)+ \
-    #               db_model.get_Compress2_LV_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_Compress1_LV_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_Compress2_HV_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_Compress1_HV_fault(UnitNo,dt,lineNo,trainNo) + \
-    #               db_model.get_Compress1_communite_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_Compress2_communite_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_IO_communite_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_Compress1_Ov_Protect(UnitNo,dt,lineNo,trainNo)+ \
-    #               db_model.get_Compress2_Ov_Protect(UnitNo,dt,lineNo,trainNo)+0
+    # mid_fault_res=get_converter2_protect(UnitNo,dt,lineNo,trainNo)+get_converter1_protect(UnitNo,dt,lineNo,trainNo)+get_Condesfan2_fault(UnitNo,dt,lineNo,trainNo)+get_Condesfan1_fault(UnitNo,dt,lineNo,trainNo)+ \
+    #               get_Compress2_LV_fault(UnitNo,dt,lineNo,trainNo)+get_Compress1_LV_fault(UnitNo,dt,lineNo,trainNo)+get_Compress2_HV_fault(UnitNo,dt,lineNo,trainNo)+get_Compress1_HV_fault(UnitNo,dt,lineNo,trainNo) + \
+    #               get_Compress1_communite_fault(UnitNo,dt,lineNo,trainNo)+get_Compress2_communite_fault(UnitNo,dt,lineNo,trainNo)+get_IO_communite_fault(UnitNo,dt,lineNo,trainNo)+get_Compress1_Ov_Protect(UnitNo,dt,lineNo,trainNo)+ \
+    #               get_Compress2_Ov_Protect(UnitNo,dt,lineNo,trainNo)+0
 
-    # slight_fault_res=db_model.et_FreshAir_Sensor_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_ReturnAir_Sensor_fault(UnitNo,dt,lineNo,trainNo)+db_model.get_FreshAir_Valve_fault(UnitNo,dt,lineNo,trainNo)+ \
-    #                  db_model.get_ReturnAir_Valve_fault(UnitNo,dt,lineNo,trainNo)+0
+    # slight_fault_res=et_FreshAir_Sensor_fault(UnitNo,dt,lineNo,trainNo)+get_ReturnAir_Sensor_fault(UnitNo,dt,lineNo,trainNo)+get_FreshAir_Valve_fault(UnitNo,dt,lineNo,trainNo)+ \
+    #                  get_ReturnAir_Valve_fault(UnitNo,dt,lineNo,trainNo)+0
     # # 正常:85-100 分
     # if serious_fault_res+mid_fault_res+slight_fault_res==0:
     #     health_score=100-15*random.random()
@@ -126,10 +130,9 @@ if __name__ == "__main__":
     parser.add_argument('--lineNo',type=str,default='5L',help='Subway Line Number')
     parser.add_argument('--trainNo',type=str,default='534',help='Subway Train Number')
     args = parser.parse_args()
-    res=rule_score(args.UnitNo,dt_str,args.lineNo,args.trainNo)
+    res=np.round(rule_score(args.UnitNo,dt_str,args.lineNo,args.trainNo),2)
     print('{:*^30}'.format('健康评估分数'))  # 使用“*”填充
-
-    print()
+    print('scores:{}'.format(res))
 
     # 运行
     # python models.py --UnitNo "2#" 
