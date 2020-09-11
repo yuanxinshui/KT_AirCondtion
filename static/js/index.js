@@ -1,888 +1,206 @@
 //$() 页面加载完后，执行
 //页面上所有的js动态效果都写在这里
 
-
-//入口函数--空调概况  安全运行天数
+//空调概况
 $(function(){
-  
-    //1.实例化对象
-    var myChart = echarts.init(document.querySelector(".overview .echarts .days"));
-    
-    var option = {
-        backgroundColor: '#00020D',
-        title:{
-              //text: '实时旋转饼图'  
-        },
-        series: [
-            {
-                type: 'pie',
-                zlevel: 1,
-                silent: true,
-                /*
-                radius
-                饼图的半径。可以为如下类型：
-                number：直接指定外半径值。
-                string：例如，'20%'，表示外半径为可视区尺寸（容器高宽中较小一项）的 20% 长度。
-                Array.<number|string>：数组的第一项是内半径，第二项是外半径。每一项遵从上述 number string 的描述。
-                */
-                radius: ['98%', '97%'],
-                hoverAnimation: false,
-                color: "rgba(88,142,197,0.5)",
-                // animation:false,    //charts3 no
-                label: {
-                    normal: {
-                        show: false
-                    },
-                },
-                labelLine: {
-                    normal: {
-                        show: false
-                    }
-                },
-                data: [1]
-            },
-            {
-                type: 'pie',
-                zlevel: 2,
-                silent: true,
-                radius: ['90%', '91%'],
-                startAngle: 50,
-                hoverAnimation: false,
-                // animation:false,    //charts3 no
-                label: {
-                    normal: {
-                        show: false
-                    },
-                },
-                labelLine: {
-                    normal: {
-                        show: false
-                    }
-                },
-                data: _pie2()
-            },
-            {
-                type: 'pie',
-                zlevel: 3,
-                silent: true,
-                radius: ['88%', '87%'],
-                label: {
-                    normal: {
-                        show: false
-                    },
-                },
-                labelLine: {
-                    normal: {
-                        show: false
-                    }
-                },
-                data: _pie2()
-            },
-            {
-                type: 'pie',
-                zlevel: 4,
-                silent: true,
-                radius: ['84%', '83%'],
-                label: {
-                    normal: {
-                        show: false
-                    },
-                },
-                labelLine: {
-                    normal: {
-                        show: false
-                    }
-                },
-                data: _pie3()
-            }, 
-            {
-                type: 'pie',
-                zlevel: 5,
-                silent: true,
-                radius: ['80%', '78%'],
-                color: ["#fc8d89", "#46d3f3", "rgba(203,203,203,.2)"],
-                startAngle: 50,
-                hoverAnimation: false,
-                // animation:false,    //charts3 no
-                label: {
-                    normal: {
-                        show: false
-                    },
-                },
-                data: [50, 20, 40]
-            },
-            {
-                name: "",
-                type: 'gauge',
-                splitNumber: 30, //刻度数量
-                min: 0,
-                max: 100,
-                radius: '73%', //图表尺寸
-                center: ['50%', '50%'],
-                startAngle: 90,
-                endAngle: -269.9999,
-                axisLine: {
-                    show: false,
-                    lineStyle: {
-                        width: 0,
-                        shadowBlur: 0,
-                        color: [
-                            [1, '#0dc2fe']
-                        ]
-                    }
-                },
-                axisTick: {
-                    show: false,
-                    lineStyle: {
-                        color: 'auto',
-                        width: 2
-                    },
-                    length: 20,
-                    splitNumber: 5
-                },
-                splitLine: {
-                    show: true,
-                    length: 32,
-                    lineStyle: {
-                        color: 'auto',
-                    }
-                },
-                axisLabel: {
-                    show: false
-                },
-                pointer: { //仪表盘指针
-                    show: 0,
-                },
-                detail: {
-                    show: 0,
-                },
-            },
-            {
-                name: '统计',
-                type: 'gauge',
-                splitNumber: 30, //刻度数量
-                min: 0,
-                max: 100,
-                radius: '68%', //图表尺寸
-                center: ['50%', '50%'],
-                startAngle: 90,
-                endAngle: -269.9999,
-                axisLine: {
-                    show: true,
-                    lineStyle: {
-                        width: 0,
-                        shadowBlur: 0,
-                        color: [
-                            [0, '#0dc2fe'],
-                            [1, '#0dc2fe']
-                        ]
-                    }
-                },
-                axisTick: {
-                    show: true,
-                    lineStyle: {
-                        color: '#0dc2fe',
-                        width: 2
-                    },
-                    length: 20,
-                    splitNumber: 5
-                },
-                splitLine: {
-                    show: true,
-                    length: 20,
-                    lineStyle: {
-                        color: '#0dc2fe',
-                    }
-                },
-                axisLabel: {
-                    show: false
-                },
-                pointer: { //仪表盘指针
-                    show: 0,
-                },
-                detail: {
-                    borderColor: '#fff',
-                    shadowColor: '#fff', //默认透明
-                    shadowBlur: 2,
-                    offsetCenter: [0, '0%'], // x, y，单位px
-                    textStyle: { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                        color: '#fff',
-                        fontSize: 15,
-                    },
-                    formatter: '{value}'
-                },
-                data: [{
-                    name: "",
-                    value: 30
-                }]
-            },
-            {
-                type: 'pie',
-                zlevel: 20,
-                silent: true,
-                radius: ['60%', '59%'],
-                hoverAnimation: false,
-                color: '#2dc0c9',
-                // animation:false,
-                data: [1],
-                labelLine: {
-                    normal: {
-                        show: false
-                    }
-                }
-            },
-            {
-                name: '中间环形图',
-                type: 'pie',
-                radius: ['35%', '55%'],
-                avoidLabelOverlap: false,
-                hoverAnimation: false,
-                itemStyle: {
-                    normal: {
-                        color: '#80ADD2',
-                        borderColor: '#3D4268',
-                    }
-                },
-                label: {
-                    normal: {
-                        show: false,
-                        position: 'center',
-    
-                    },
-                    emphasis: {
-                        show: true,
-                        textStyle: {
-                            fontSize: '30',
-                            fontWeight: 'bold'
-                        }
-                    }
-                },
-                labelLine: {
-                    normal: {
-                        show: false
-                    }
-                },
-                data: [
-                    25, 25, 25, 25, 25, 25
-                ]
-            },
-        ]
-    };
-    
-    function _pie1() {
-        let dataArr = [];
-        for (var i = 0; i < 8; i++) {
-    
-            dataArr.push({
-                name: (i + 1).toString(),
-                value: 20,
-                itemStyle: {
-                    normal: {
-                        color: "rgba(88,142,197,0.4)",
-                        borderWidth: 0,
-                        borderColor: "rgba(0,0,0,0)"
-                    }
-                }
-            })
-    
-        }
-        return dataArr
-    
-    }
-    
-    function _pie2() {
-        let dataArr = [];
-        for (var i = 0; i < 8; i++) {
-            if (i % 2 === 0) {
-                dataArr.push({
-                    name: (i + 1).toString(),
-                    value: 25,
-                    itemStyle: {
-                        normal: {
-                            color: "rgba(88,142,197,0.5)",
-                            borderWidth: 0,
-                            borderColor: "rgba(0,0,0,0)"
-                        }
-                    }
-                })
-            } else {
-                dataArr.push({
-                    name: (i + 1).toString(),
-                    value: 20,
-                    itemStyle: {
-                        normal: {
-                            color: "rgba(0,0,0,0)",
-                            borderWidth: 0,
-                            borderColor: "rgba(0,0,0,0)"
-                        }
-                    }
-                })
-            }
-    
-        }
-        return dataArr
-    
-    }
-    
-    function _pie3() {
-        let dataArr = [];
-        for (var i = 0; i < 100; i++) {
-            if (i % 2 === 0) {
-                dataArr.push({
-                    name: (i + 1).toString(),
-                    value: 25,
-                    itemStyle: {
-                        normal: {
-                            color: "rgb(126,190,255)",
-                            borderWidth: 0,
-                            borderColor: "rgba(0,0,0,0)"
-                        }
-                    }
-                })
-            } else {
-                dataArr.push({
-                    name: (i + 1).toString(),
-                    value: 20,
-                    itemStyle: {
-                        normal: {
-                            color: "rgba(0,0,0,0)",
-                            borderWidth: 0,
-                            borderColor: "rgba(0,0,0,0)"
-                        }
-                    }
-                })
-            }
-    
-        }
-        return dataArr
-    
-    }
-    
-    function _pieData(data) {
-        let _data = data;
-        let dataArr = [];
-        for (var i = 0; i < 5; i++) {
-            if (i === 2) {
-                let dt = (data[0].unit) ? 25 : (Number(data[0].value));
-                dataArr.push({
-                    name: (i + 1).toString(),
-                    value: dt,
-                    itemStyle: {
-                        normal: {
-    
-                            color: new echarts.graphic.LinearGradient(0, 1, 1, 0, [{
-                                offset: 0,
-                                color: 'rgb(147,187,216)'
-                            }, {
-                                offset: 1,
-                                color: '#588ec5'
-                            }]),
-                            borderWidth: 0,
-                            borderColor: "rgba(0,0,0,0.4)"
-    
-                        }
-                    }
-                })
-            } else {
-                let dta = (data[0].unit) ? 25 : (1 - Number(data[0].value)) / 4;
-                dataArr.push({
-                    name: (i + 1).toString(),
-                    value: dta,
-                    itemStyle: {
-                        normal: {
-                            color: "rgba(0,0,0,0)",
-                            borderWidth: 0,
-                            borderColor: "rgba(0,0,0,0)"
-                        }
-                    }
-                })
-            }
-    
-        }
-        //console.log(dataArr)
-        return dataArr
-    }
-    
-    
-    //鼠标事件：'click'，'dblclick'，'mousedown'，'mouseup'，'mouseover'，'mouseout'，'globalout'。
-    
-    myChart.on('mouseover', function(params) {
-        stopTimer();
-    });
-    
-    myChart.on('mouseout', function(params) {
-        startTimer();
-    });
-    
-    
-    var timer;
-    
-    function doing() {
-        let option = myChart.getOption();
-        option.series[3].startAngle = option.series[3].startAngle - 1;
-        option.series[6].data[0].value = option.series[6].data[0].value + 1;
-        myChart.setOption(option);
-    
-    }
-    
-    function startTimer() {
-    
-        timer = setInterval(doing, 100);
-    
-    }
-    
-    function stopTimer() {
-    
-        clearInterval(timer);
-    
-        xzTimer = null;
-    
-    }
-    
-    setTimeout(startTimer, 50000);
-    
-    //3.把配置给实例对象
-    myChart.setOption(option);
-    // 4. 让图表跟随屏幕自动的去适应
-    window.addEventListener("resize", function() {
-        myChart.resize();
-    }); 
-})
-
-//入口函数--空调概况   空调使用率
-$(function(){
-     //1.实例化对象
-     var myChart = echarts.init(document.querySelector(".overview .echarts .useratio"));
-    
-     let num = 0;
-     var option = {
-        backgroundColor: '#00020D',
-        title: [{
-           
-            x: 'center',
-            top: '52%',
-            textStyle: {
-                color: '#fdf914',
-                fontSize: 10,
-                fontWeight: '100',
-            }
-        }, {
-            text: '60%',
-            x: 'center',
-            top: '42%',
-            textStyle: {
-                fontSize: '13',
-                color: '#fdf914',
-                fontFamily: 'Lato',
-                foontWeight: '600',
-            },
-        }],
-        polar: {
-            radius: ['44%', '50%'],
-            center: ['50%', '50%'],
-        },
-        angleAxis: {
-            max: 100,
-            show: false,
-        },
-        radiusAxis: {
-            type: 'category',
-            show: true,
-            axisLabel: {
-                show: false,
-            },
-            axisLine: {
-                show: false,
-
-            },
-            axisTick: {
-                show: false
-            },
-        },
-        series: [
-            {
-                name: '',
-                type: 'bar',
-                roundCap: true,
-                barWidth: 60,
-                showBackground: true,
-                backgroundStyle: {
-                    color: 'rgba(66, 66, 66, .3)',
-                },
-                data: [60],
-                coordinateSystem: 'polar',
-
-                itemStyle: {
-                    normal: {
-                        color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-                            offset: 0,
-                            color: '#fdf914'
-                        }, {
-                            offset: 1,
-                            color: '#38a700'
-                        }]),
-                    }
-                }
-
-            }, 
-            {
-                type: 'gauge',
-                name: '',
-                radius: '57%',
-                startAngle: '0',
-                endAngle: '-359.99',
-                splitNumber: '200',
-                center: ['50%', '50%'],
-                pointer: {
-                    show: false
-                },
-                title: {
-                    show: false
-                },
-                detail: {
-                    show: false
-                },
-                data: [{
-                    value: 95,
-                    name: ''
-                }],
-                axisLine: {
-                    lineStyle: {
-                        width: 20,
-                        opacity: 0
-                    }
-                },
-                axisTick: {
-                    show: false
-                },
-                splitLine: {
-                    show: true,
-                    length: 13,
-                    lineStyle: {
-                        color: {
-                            type: 'linear',
-                            x: 1,
-                            y: 0,
-                            x2: 0,
-                            y2: 0,
-                            colorStops: [{
-                                offset: 0,
-                                color: '#111'
-                            }, {
-                                offset: 0.5,
-                                color: 'rgba(66, 66, 66, 1)',
-                            }, {
-                                offset: 1,
-                                color: '#111'
-                            }],
-                            globalCoord: false
-                        },
-                        width: 1,
-                        type: 'solid',
-                    },
-                },
-                axisLabel: {
-                    show: false
-                }
-            },
-            {
-                name: '',
-                type: 'pie',
-                startAngle: 90,
-                radius: ['60%', '62%'],
-                hoverAnimation: false,
-                center: ['50%', '50%'],
-                itemStyle: {
-                    normal: {
-                        labelLine: {
-                            show: false
-                        },
-                        color: 'rgba(66, 66, 66, .4)',
-                        shadowBlur: 10,
-                        shadowColor: 'rgba(253, 249, 20, .3)',
-                    }
-                },
-                data: [{
-                    value: 100,
-
-                }]
-            },
-            {
-                name: '',
-                type: 'pie',
-                startAngle: 90,
-                radius: ['62.5%', '64%'],
-                hoverAnimation: false,
-                center: ['50%', '50%'],
-                itemStyle: {
-                    normal: {
-                        labelLine: {
-                            show: false
-                        },
-                        color: 'rgba(66, 66, 66, .3)',
-                        shadowBlur: 10,
-                        shadowColor: 'rgba(253, 249, 20, .3)',
-                    }
-                },
-                data: [{
-                    value: 100,
-
-                }]
-            },
-            {
-                name: '',
-                type: 'pie',
-                startAngle: 90,
-                radius: ['64.5%', '65.8%'],
-                hoverAnimation: false,
-                center: ['50%', '50%'],
-                itemStyle: {
-                    normal: {
-                        labelLine: {
-                            show: false
-                        },
-                        color: 'rgba(66, 66, 66, .2)',
-                        shadowBlur: 10,
-                        shadowColor: 'rgba(253, 249, 20, .3)',
-                    }
-                },
-                data: [{
-                    value: 100,
-
-                }]
-            },
-            {
-                name: '',
-                type: 'pie',
-                startAngle: 90,
-                radius: ['66.5%', '67.5%'],
-                hoverAnimation: false,
-                center: ['50%', '50%'],
-                itemStyle: {
-                    normal: {
-                        labelLine: {
-                            show: false
-                        },
-                        color: 'rgba(66, 66, 66, .1)',
-                        shadowBlur: 10,
-                        shadowColor: 'rgba(253, 249, 20, .3)',
-                    }
-                },
-                data: [{
-                    value: 100,
-
-                }]
-            },
-            {
-                name: "",
-                type: 'custom',
-                coordinateSystem: "none",
-                renderItem: function(params, api) {
-                    return {
-                        type: 'arc',
-                        shape: {
-                            cx: api.getWidth() / 2,
-                            cy: api.getHeight() / 2,
-                            r: Math.min(api.getWidth(), api.getHeight()) / 2 * 0.545,
-                            startAngle: (0+num) * Math.PI / 180,
-                            endAngle: (1+num) * Math.PI / 180
-                        },
-                        style: {
-                            stroke: "#fdf914",
-                            fill: "transparent",
-                            lineWidth: 5
-                        },
-                        silent: true
-                    };
-                },
-                data: [0]
-            },
-        ]
-    };
-    function numb(){
-        num = num+5
-        myChart.setOption(option, true)
-    }
-    setInterval(function() {
-        numb()
-    }, 100);
-     
-     //3.把配置给实例对象
-     myChart.setOption(option);
-     // 4. 让图表跟随屏幕自动的去适应
-     window.addEventListener("resize", function() {
-         myChart.resize();
-     }); 
-})
-
-//入口函数--空调概况   告警总数
-$(function(){
-    
-    //1.实例化对象
-    var myChart = echarts.init(document.querySelector(".overview .echarts .alarm"));
-   
-    let value = 50;
-    // let title = '告警数';
-    let int = value.toFixed(2).split('.')[0];
-    let float = value.toFixed(2).split('.')[1];
-
-    var option = {
-        backgroundColor: '#00020D',
-        title: {
-            text: '{a|'+ int +'}',
-            x: 'center',
-            y: 'center',
-            textStyle: {
-                rich:{
-                    a: {
-                        fontSize: 14,
-                        color: '#29EEF3'
-                    },
-                    b: {
-                        fontSize: 10,
-                        color: '#29EEF3',
-                        padding: [0,0,14,0]
-                    },
-                    c: {
-                        fontSize: 10,
-                        color: '#FF0000',
-                        padding: [5,0]
-                    }
-                }
-            }
-        },
-        series: [
-            {
-                type: 'gauge',
-                radius: '60%',
-                clockwise: false,
-                startAngle: '90',
-                endAngle: '-269.9999',
-                splitNumber: 25,
-                detail: {
-                    offsetCenter: [0, -20],
-                    formatter: ' '
-                },
-                pointer: {
-                    show: false
-                },
-                axisLine: {
-                    show: true,
-                    lineStyle: {
-                        color: [
-                            [0, '#2CFAFC'],
-                            [52 / 100, '#1DE2A4'],
-                            [1, 'rgba(32,187,252,0.15)']
-                        ],
-                        width: 30
-                    }
-                },
-                axisTick: {
-                    show: false
-                },
-                splitLine: {
-                    show: true,
-                    length: 32,
-                    lineStyle: {
-                        color: '#051F54',
-                        width: 6
-                    }
-                },
-                axisLabel: {
-                    show: false
-                }
-            },
-            {
-                type: 'pie',
-                name: '内层细圆环',
-                radius: ['43%', '45%'],
-                hoverAnimation: false,
-                clockWise: false,
-                itemStyle: {
-                    normal: {
-                        color: '#0C355E'
-                    }
-                },
-                label: {
-                    show: false
-                },
-                data: [100]
-            },
-            {
-                type: 'pie',
-                name: '内层环',
-                radius: [0, '43%'],
-                hoverAnimation: false,
-                clockWise: false,
-                itemStyle: {
-                    normal: {
-                        color: '#02163F'
-                    }
-                },
-                label: {
-                    show: false
-                },
-                data: [100]
-            }
-        ]
-    };
-    //3.把配置给实例对象
-    myChart.setOption(option);
-    // 4. 让图表跟随屏幕自动的去适应
-    window.addEventListener("resize", function() {
-        myChart.resize();
-    }); 
-})
-
-//入口函数--空调概况   温度
-$(function(){
-    //1.实例化对象
-    var myChart = echarts.init(document.querySelector(".overview .echarts .temper"));
-    
-    var value=27
-    var data = []
-    data.push(value)
-    data.push(value)
-    data.push(value)
-    data.push(value)
-    data.push(value)
-    var option = {
-        backgroundColor: '#00020D',
-        title: {
-            
-            textStyle: {
-                fontWeight: 'normal',
-                fontSize: 10,
-                color: 'rgb(97, 142, 205)'
-            }
-        },
-        series: [{
-            type: 'liquidFill',
-            radius: '80%',
-            data: data,
-            backgroundStyle: {
-                borderWidth: 5,
-                borderColor: 'rgb(255,0,255,0.9)',
-                color: 'rgb(255,0,255,0.01)'
-            },
-            label: {
-                normal: {
-                    formatter: (value).toFixed(1) + '℃',
-                    textStyle: {
-                        fontSize: 13
-                    }
-                }
-            }
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.querySelector('.overview .echarts .overview_bar'));
+    var data = [
+        {
+            name: '故障率',
+            value: 54
+        },{
+            name: '空调使用率',
+            value: 44
+        },{
+            name: 'MTBF',
+            value: 35
+        },{
+            name: '车辆在线率',
+            value: 30
         }]
+        
+        var titleArr= [], seriesArr=[];
+        colors=[['#389af4', '#dfeaff'],['#ff8c37', '#ffdcc3'],['#ffc257', '#ffedcc'], ['#fd6f97', '#fed4e0'],['#a181fc', '#e3d9fe']]
+        data.forEach(function(item, index){
+            titleArr.push(
+                {
+                    text:item.name,
+                    left: index * 20 + 18 +'%',
+                    top: '75%',
+                    textAlign: 'center',
+                    textStyle: {
+                        fontWeight: 'normal',
+                        fontSize: '16',
+                        color: colors[index][0],
+                        textAlign: 'center',
+                    },
+                }        
+            );
+            seriesArr.push(
+                {
+                    name: item.name,
+                    type: 'pie',
+                    clockWise: false,
+                    radius: [25, 35],
+                    itemStyle:  {
+                        normal: {
+                            color: colors[index][0],
+                            shadowColor: colors[index][0],
+                            shadowBlur: 0,
+                            label: {
+                                show: false
+                            },
+                            labelLine: {
+                                show: false
+                            },
+                        }
+                    },
+                    hoverAnimation: false,
+                    center: [index * 20 + 20 +'%', '40%'],
+                    data: [{
+                        value: item.value,
+                        label: {
+                            normal: {
+                                formatter: function(params){
+                                    return params.value+'%';
+                                },
+                                position: 'center',
+                                show: true,
+                                textStyle: {
+                                    fontSize: '20',
+                                    fontWeight: 'bold',
+                                    color: colors[index][0]
+                                }
+                            }
+                        },
+                    }, {
+                        value: 100-item.value,
+                        name: 'invisible',
+                        itemStyle: {
+                            normal: {
+                                color: colors[index][1]
+                            },
+                            emphasis: {
+                                color: colors[index][1]
+                            }
+                        }
+                    }]
+                }    
+            )
+        });
+       
+        
+   var option = {
+     
+        title:titleArr,
+        series: seriesArr
     }
-    //3.把配置给实例对象
+   
+    // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
+});
 
-    // 4. 让图表跟随屏幕自动的去适应
-    window.addEventListener("resize", function() {
-        myChart.resize();
-    }); 
-})
+
+// 入口函数--空调告警分布统计
+$(function(){
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.querySelector('.fault_stas .echarts .distribute'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        color: ['#006cff','#60cda0','#ed8884','#ff9f7f','#00g6ff','#9fe6b8','#32c5e9','#1d9dff'],
+        // backgroundColor: '#2c343c',
+    
+        // title: {
+        //     text: 'Customized Pie',
+        //     left: 'center',
+        //     top: 20,
+        //     textStyle: {
+        //         color: '#ccc'
+        //     }
+        // },
+    
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)',
+            position:function(point){
+               //  point表示当前鼠标的位置
+               // point[0] 鼠标当前这一点x轴的位置
+               // point[1] 鼠标当前这一点Y轴的位置
+               return [point[0]+10,point[1]+10]
+            }
+        },
+    
+        // visualMap: {
+        //     show: false,
+        //     min: 80,
+        //     max: 600,
+        //     inRange: {
+        //         colorLightness: [0, 1]
+        //     }
+        // },
+        
+        series: [
+            {
+                name: '分布统计',
+                type: 'pie',
+                //饼图半径，第一个是内半径，第二个是外半径
+                radius: [18,80],
+                //饼图的中心位置
+                center: ['50%', '50%'],
+                
+                data: [
+                    {value: 300, name: '高压故障'},
+                    {value: 310, name: '制冷效果差'},
+                    {value: 274, name: '制热效果差'},
+                    {value: 335, name: '车厢过冷'},
+                    {value: 300, name: '温度传感器失效'},
+                    {value: 400, name: '车厢过热'},
+                    {value: 500, name: '排气温度过高'},
+                ],
+                //根据数据进行排序
+                // .sort(function (a, b) { return a.value - b.value; })
+                
+                //根据值得大小，确定半径大小，注释的话大小是一样的
+                roseType: 'radius',
+                
+                //图表上文字的颜色如果不设置根图表的颜色一致
+                // label: {
+                //     color: 'rgba(255, 255, 255, 0.3)'
+                // },
+                labelLine: {
+                    //引导线样式
+                    // lineStyle: {
+                    //     color: 'rgba(255, 255, 255, 0.3)'
+                    // },
+                    //平滑度
+                    // smooth: 0.2,
+                    // 线的长度
+                    length: 5,
+                    length2: 10
+                },
+                itemStyle: {
+                    //每一个图例的样式
+                    // 颜色 默认从全局调色盘
+                    // color: red,
+                    shadowBlur: 200,
+                    //图形阴影的模糊大小
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                },
+    
+                animationType: 'scale',
+                animationEasing: 'elasticOut',
+                animationDelay: function (idx) {
+                    return Math.random() * 200;
+                }
+            }
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+});
 
 //入口函数--趋势分析
 $(function(){
@@ -893,19 +211,23 @@ $(function(){
     var data=[
         [
             [24,40,101,134,90,230,210,230,120,230,210,120],
-            [40,64,191,324,290,430,310,213,180,200,180,79]
+            [40,64,191,324,290,330,310,213,180,200,180,79],
+            [70,64,100,267,290,108,257,244,86,118,180,95],
         ],
         [
-            [23,75,12,397,21,67,98,21,43,64,76,38],
-            [43,31,65,23,78,21,82,64,43,60,19,34]
+            [23,75,12,197,21,67,98,21,43,64,76,38],
+            [43,31,65,23,78,21,82,64,43,60,19,34],
+            [32,54,34,87,32,45,62,268,93,54,54,24]
         ],
         [
             [34,87,32,76,98,12,32,487,39,36,29,36],
-            [56,43,98,21,56,87,143,12,43,54,12,98]
+            [56,43,98,21,56,87,143,12,43,54,12,98],
+            [43,73,463,54,91,54,84,43,86,43,54,53],
         ],
         [
             [43,73,463,54,91,54,84,43,86,43,54,53],
-            [32,54,34,87,32,45,62,268,93,54,54,24]
+            [32,54,34,87,32,45,62,268,93,54,54,24],
+            [34,87,32,76,98,12,32,487,39,36,29,36],
         ],
 
     ]
@@ -926,7 +248,7 @@ $(function(){
         },
         //图例组件，和series里面的每一项对应
         legend: {
-            data: ['系统1回风温度', '系统1吸气温度'],
+            data: ['系统1回风温度', '系统1吸气温度','蒸发器1出口温度'],
               textStyle:{
                 color:'#4995f4'
             },
@@ -1017,7 +339,7 @@ $(function(){
         //图例本身设置
         series: [
             {
-                name: '最高额度',
+                name: '系统1回风温度',
                 type: 'line',
                 //是否平滑
                 smooth:true,
@@ -1054,7 +376,7 @@ $(function(){
                 //如果2个不一样就分开设置，如果两个一样就设置一个就好了
             },
             {
-                name: '最低额度',
+                name: '系统1吸气温度',
                 type: 'line',
                 smooth:true,
                 //拐点的大小
@@ -1064,6 +386,19 @@ $(function(){
                     color:'green'
                 },
                 data: [40,64,191,324,290,330,310,213,180,200,180,79],
+                
+            },
+            {
+                name: '蒸发器1出口温度',
+                type: 'line',
+                smooth:true,
+                //拐点的大小
+                symbolSize:8,
+                  //拐点样式设置
+                itemStyle:{
+                    color:'blue'
+                },
+                data: [30,54,80,22,10,15,60,130,100,200,90,35],
                 
             }
         ]
@@ -1084,10 +419,11 @@ $(function(){
         //2.替换数据
         option.series[0].data=data[index][0];
         option.series[1].data=data[index][1];
+        option.series[2].data=data[index][2];
         // 3.重新渲染echarts图表
         myChart.setOption(option)
 
-        $('.sales .head a').eq(index).addClass('active').siblings('a').removeClass('active')
+        // $('.sales .head a').eq(index).addClass('active').siblings('a').removeClass('active')
     },2000);
 });
 
@@ -1587,2858 +923,2860 @@ $(function(){
 
 })
 
+
 //入口函数-线路图
-$(function(){
-     // 1实例化对象
-     var myChart = echarts.init(document.querySelector(".subway-line .echarts .sublines"));
+// $(function(){
+//      // 1实例化对象
+//      var myChart = echarts.init(document.querySelector(".subway-line .echarts .sublines"));
     
-     var data = [
+//      var data = [
      
         
-        {
-            name: "沣东自贸园",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'top',
-            },
-            value: [180, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#157eff"
-                        },
-                        {
-                            offset: 1,
-                            color: "#35c2ff"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "后卫寨",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [230, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#157eff"
-                        },
-                        {
-                            offset: 1,
-                            color: "#35c2ff"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "三桥",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'top',
-            },
-            value: [280, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#157eff"
-                        },
-                        {
-                            offset: 1,
-                            color: "#35c2ff"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "皂河",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [330, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#157eff"
-                        },
-                        {
-                            offset: 1,
-                            color: "#35c2ff"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "枣园",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'top',
-            },
-            value: [380, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#157eff"
-                        },
-                        {
-                            offset: 1,
-                            color: "#35c2ff"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "汉城路",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [430, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#157eff"
-                        },
-                        {
-                            offset: 1,
-                            color: "#35c2ff"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "开远门",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'top',
-            },
-            value: [480, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#157eff"
-                        },
-                        {
-                            offset: 1,
-                            color: "#35c2ff"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "劳动路",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [530, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#157eff"
-                        },
-                        {
-                            offset: 1,
-                            color: "#35c2ff"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "玉祥门",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'top',
-            },
-            value: [580, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#157eff"
-                        },
-                        {
-                            offset: 1,
-                            color: "#35c2ff"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "洒金桥",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [630, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#157eff"
-                        },
-                        {
-                            offset: 1,
-                            color: "#35c2ff"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "北大街",
-            symbol: 'circle',
-            symbolSize: [20, 20],
-            label: {
-                color: "#efefef",
-                position: 'top',
-            },
-            value: [680, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 1, 1, 0, [{
-                            offset: 0,
-                            color: "#FF1493"
-                        },
-                        {
-                            offset: 1,
-                            color: "#0000FF"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "五路口",
-            symbol: 'circle',
-            symbolSize: [20, 20],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [730, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 1, 1, 0, [{
-                            offset: 0,
-                            color: "#FF1493"
-                        },
-                        {
-                            offset: 1,
-                            color: "#0000FF"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "朝阳门",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'top',
-            },
-            value: [780, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#157eff"
-                        },
-                        {
-                            offset: 1,
-                            color: "#35c2ff"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "康复路",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [830, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#157eff"
-                        },
-                        {
-                            offset: 1,
-                            color: "#35c2ff"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "通化门",
-            symbol: 'circle',
-            symbolSize: [20, 20],
-            label: {
-                color: "#efefef",
-                position: 'top',
-            },
-            value: [880, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 1, 1, 0, [{
-                            offset: 0,
-                            color: "#FF1493"
-                        },
-                        {
-                            offset: 1,
-                            color: "#0000FF"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "万寿路",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [930, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#157eff"
-                        },
-                        {
-                            offset: 1,
-                            color: "#35c2ff"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "长乐坡",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'top',
-            },
-            value: [980, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#157eff"
-                        },
-                        {
-                            offset: 1,
-                            color: "#35c2ff"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "浐河",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [1030, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#157eff"
-                        },
-                        {
-                            offset: 1,
-                            color: "#35c2ff"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "半坡",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'top',
-            },
-            value: [1080, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#157eff"
-                        },
-                        {
-                            offset: 1,
-                            color: "#35c2ff"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "纺织城",
-            symbol: 'circle',
-            symbolSize: [25, 25],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [1130, 600],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#157eff"
-                        },
-                        {
-                            offset: 1,
-                            color: "#35c2ff"
-                        }
-                    ])
-                }
-            }
-        },
-        //地铁二号线，垂直线路，站点间X轴坐标相同，Y轴坐标相差50
-        {
-            name: "钟楼",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 540],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "red"
-                        },
-                        {
-                            offset: 1,
-                            color: "red"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "永宁门",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 500],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "red"
-                        },
-                        {
-                            offset: 1,
-                            color: "red"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "南稍门",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 450],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "red"
-                        },
-                        {
-                            offset: 1,
-                            color: "red"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "体育场",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 400],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "red"
-                        },
-                        {
-                            offset: 1,
-                            color: "red"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "小寨",
-            symbol: 'circle',
-            symbolSize: [20, 20],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 350],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 1, 1, 0, [{
-                            offset: 0,
-                            color: "#FF1493"
-                        },
-                        {
-                            offset: 1,
-                            color: "#0000FF"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "纬一街",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 300],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "red"
-                        },
-                        {
-                            offset: 1,
-                            color: "red"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "会展中心",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 250],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "red"
-                        },
-                        {
-                            offset: 1,
-                            color: "red"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "三爻",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 200],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "red"
-                        },
-                        {
-                            offset: 1,
-                            color: "red"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "凤栖原",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 150],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "red"
-                        },
-                        {
-                            offset: 1,
-                            color: "red"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "航天城",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 100],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "red"
-                        },
-                        {
-                            offset: 1,
-                            color: "red"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "韦曲南",
-            symbol: 'circle',
-            symbolSize: [25, 25],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 50],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "red"
-                        },
-                        {
-                            offset: 1,
-                            color: "red"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "安远门",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 660],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "red"
-                        },
-                        {
-                            offset: 1,
-                            color: "red"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "龙首原",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 700],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "red"
-                        },
-                        {
-                            offset: 1,
-                            color: "red"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "大明宫西",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 750],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "red"
-                        },
-                        {
-                            offset: 1,
-                            color: "red"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "市图书馆",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 800],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "red"
-                        },
-                        {
-                            offset: 1,
-                            color: "red"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "凤城五路",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 850],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "red"
-                        },
-                        {
-                            offset: 1,
-                            color: "red"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "行政中心",
-            symbol: 'circle',
-            symbolSize: [20, 20],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 900],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 1, 1, 0, [{
-                            offset: 0,
-                            color: "#FF1493"
-                        },
-                        {
-                            offset: 1,
-                            color: "#0000FF"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "运动公园",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 950],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "red"
-                        },
-                        {
-                            offset: 1,
-                            color: "red"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "北苑",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 1000],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "red"
-                        },
-                        {
-                            offset: 1,
-                            color: "red"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "北客站",
-            symbol: 'circle',
-            symbolSize: [25, 25],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [680, 1050],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "red"
-                        },
-                        {
-                            offset: 1,
-                            color: "red"
-                        }
-                    ])
-                }
-            }
-        },
-        //地铁三号线
-        {
-            name: "吉祥村",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'top',
-            },
-            value: [580, 350],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#FF00FF"
-                        },
-                        {
-                            offset: 1,
-                            color: "#FF00FF"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "太白南路",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [520, 350],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#FF00FF"
-                        },
-                        {
-                            offset: 1,
-                            color: "#FF00FF"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "科技路",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'top',
-            },
-            value: [460, 350],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#FF00FF"
-                        },
-                        {
-                            offset: 1,
-                            color: "#FF00FF"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "延平门",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [400, 350],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#FF00FF"
-                        },
-                        {
-                            offset: 1,
-                            color: "#FF00FF"
-                        }
-                    ])
-                }
-            }
-        },
+//         {
+//             name: "沣东自贸园",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'top',
+//             },
+//             value: [180, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#157eff"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#35c2ff"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "后卫寨",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [230, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#157eff"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#35c2ff"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "三桥",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'top',
+//             },
+//             value: [280, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#157eff"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#35c2ff"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "皂河",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [330, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#157eff"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#35c2ff"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "枣园",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'top',
+//             },
+//             value: [380, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#157eff"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#35c2ff"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "汉城路",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [430, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#157eff"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#35c2ff"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "开远门",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'top',
+//             },
+//             value: [480, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#157eff"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#35c2ff"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "劳动路",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [530, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#157eff"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#35c2ff"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "玉祥门",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'top',
+//             },
+//             value: [580, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#157eff"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#35c2ff"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "洒金桥",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [630, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#157eff"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#35c2ff"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "北大街",
+//             symbol: 'circle',
+//             symbolSize: [20, 20],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'top',
+//             },
+//             value: [680, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 1, 1, 0, [{
+//                             offset: 0,
+//                             color: "#FF1493"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#0000FF"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "五路口",
+//             symbol: 'circle',
+//             symbolSize: [20, 20],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [730, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 1, 1, 0, [{
+//                             offset: 0,
+//                             color: "#FF1493"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#0000FF"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "朝阳门",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'top',
+//             },
+//             value: [780, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#157eff"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#35c2ff"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "康复路",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [830, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#157eff"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#35c2ff"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "通化门",
+//             symbol: 'circle',
+//             symbolSize: [20, 20],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'top',
+//             },
+//             value: [880, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 1, 1, 0, [{
+//                             offset: 0,
+//                             color: "#FF1493"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#0000FF"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "万寿路",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [930, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#157eff"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#35c2ff"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "长乐坡",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'top',
+//             },
+//             value: [980, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#157eff"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#35c2ff"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "浐河",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [1030, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#157eff"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#35c2ff"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "半坡",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'top',
+//             },
+//             value: [1080, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#157eff"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#35c2ff"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "纺织城",
+//             symbol: 'circle',
+//             symbolSize: [25, 25],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [1130, 600],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#157eff"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#35c2ff"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         //地铁二号线，垂直线路，站点间X轴坐标相同，Y轴坐标相差50
+//         {
+//             name: "钟楼",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 540],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "red"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "red"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "永宁门",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 500],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "red"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "red"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "南稍门",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 450],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "red"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "red"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "体育场",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 400],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "red"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "red"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "小寨",
+//             symbol: 'circle',
+//             symbolSize: [20, 20],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 350],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 1, 1, 0, [{
+//                             offset: 0,
+//                             color: "#FF1493"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#0000FF"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "纬一街",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 300],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "red"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "red"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "会展中心",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 250],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "red"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "red"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "三爻",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 200],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "red"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "red"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "凤栖原",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 150],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "red"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "red"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "航天城",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 100],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "red"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "red"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "韦曲南",
+//             symbol: 'circle',
+//             symbolSize: [25, 25],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 50],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "red"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "red"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "安远门",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 660],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "red"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "red"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "龙首原",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 700],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "red"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "red"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "大明宫西",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 750],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "red"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "red"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "市图书馆",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 800],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "red"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "red"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "凤城五路",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 850],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "red"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "red"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "行政中心",
+//             symbol: 'circle',
+//             symbolSize: [20, 20],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 900],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 1, 1, 0, [{
+//                             offset: 0,
+//                             color: "#FF1493"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#0000FF"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "运动公园",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 950],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "red"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "red"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "北苑",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 1000],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "red"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "red"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "北客站",
+//             symbol: 'circle',
+//             symbolSize: [25, 25],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [680, 1050],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "red"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "red"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         //地铁三号线
+//         {
+//             name: "吉祥村",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'top',
+//             },
+//             value: [580, 350],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#FF00FF"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#FF00FF"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "太白南路",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [520, 350],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#FF00FF"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#FF00FF"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "科技路",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'top',
+//             },
+//             value: [460, 350],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#FF00FF"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#FF00FF"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "延平门",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [400, 350],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#FF00FF"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#FF00FF"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
       
-        {
-            name: "桃花潭",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [1000, 757],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#FF00FF"
-                        },
-                        {
-                            offset: 1,
-                            color: "#FF00FF"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "浐灞中心",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'right',
-            },
-            value: [1040, 780],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#FF00FF"
-                        },
-                        {
-                            offset: 1,
-                            color: "#FF00FF"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "香湖湾",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'right',
-            },
-            value: [1040, 830],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#FF00FF"
-                        },
-                        {
-                            offset: 1,
-                            color: "#FF00FF"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "务庄",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'right',
-            },
-            value: [1040, 880],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#FF00FF"
-                        },
-                        {
-                            offset: 1,
-                            color: "#FF00FF"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "国际港务区",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'right',
-            },
-            value: [1040, 930],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#FF00FF"
-                        },
-                        {
-                            offset: 1,
-                            color: "#FF00FF"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "双寨",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'right',
-            },
-            value: [1040, 980],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#FF00FF"
-                        },
-                        {
-                            offset: 1,
-                            color: "#FF00FF"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "新筑",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'right',
-            },
-            value: [1040, 1030],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#FF00FF"
-                        },
-                        {
-                            offset: 1,
-                            color: "#FF00FF"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "保税区",
-            symbol: 'circle',
-            symbolSize: [25, 25],
-            label: {
-                color: "#efefef",
-                position: 'right',
-            },
-            value: [1040, 1080],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#FF00FF"
-                        },
-                        {
-                            offset: 1,
-                            color: "#FF00FF"
-                        }
-                    ])
-                }
-            }
-        },
-        //地铁四号线
+//         {
+//             name: "桃花潭",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [1000, 757],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#FF00FF"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#FF00FF"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "浐灞中心",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'right',
+//             },
+//             value: [1040, 780],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#FF00FF"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#FF00FF"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "香湖湾",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'right',
+//             },
+//             value: [1040, 830],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#FF00FF"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#FF00FF"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "务庄",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'right',
+//             },
+//             value: [1040, 880],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#FF00FF"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#FF00FF"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "国际港务区",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'right',
+//             },
+//             value: [1040, 930],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#FF00FF"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#FF00FF"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "双寨",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'right',
+//             },
+//             value: [1040, 980],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#FF00FF"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#FF00FF"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "新筑",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'right',
+//             },
+//             value: [1040, 1030],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#FF00FF"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#FF00FF"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "保税区",
+//             symbol: 'circle',
+//             symbolSize: [25, 25],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'right',
+//             },
+//             value: [1040, 1080],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#FF00FF"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#FF00FF"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         //地铁四号线
       
        
-        {
-            name: "百花村",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'right',
-            },
-            value: [730, 835],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#48D1CC"
-                        },
-                        {
-                            offset: 1,
-                            color: "#48D1CC"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "常青路",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'right',
-            },
-            value: [730, 865],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#48D1CC"
-                        },
-                        {
-                            offset: 1,
-                            color: "#48D1CC"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "市中医院",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'right',
-            },
-            value: [710, 890],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#48D1CC"
-                        },
-                        {
-                            offset: 1,
-                            color: "#48D1CC"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "文景路",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [550, 900],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#48D1CC"
-                        },
-                        {
-                            offset: 1,
-                            color: "#48D1CC"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "凤城九路",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [530, 930],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#48D1CC"
-                        },
-                        {
-                            offset: 1,
-                            color: "#48D1CC"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "凤城十二路",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [530, 970],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#48D1CC"
-                        },
-                        {
-                            offset: 1,
-                            color: "#48D1CC"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "元朔路",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [530, 1010],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#48D1CC"
-                        },
-                        {
-                            offset: 1,
-                            color: "#48D1CC"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "北客站(北广场)",
-            symbol: 'circle',
-            symbolSize: [25, 25],
-            label: {
-                color: "#efefef",
-                position: 'right',
-            },
-            value: [640, 1100],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#48D1CC"
-                        },
-                        {
-                            offset: 1,
-                            color: "#48D1CC"
-                        }
-                    ])
-                }
-            }
-        },
-        //机场城际
-        {
-            name: "渭河南",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [530, 1120],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#20B2AA"
-                        },
-                        {
-                            offset: 1,
-                            color: "#20B2AA"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "秦宫",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'left',
-            },
-            value: [450, 1145],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#20B2AA"
-                        },
-                        {
-                            offset: 1,
-                            color: "#20B2AA"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "秦汉新城",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [380, 1105],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#20B2AA"
-                        },
-                        {
-                            offset: 1,
-                            color: "#20B2AA"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "长陵",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [310, 1080],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#20B2AA"
-                        },
-                        {
-                            offset: 1,
-                            color: "#20B2AA"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "摆旗寨",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [230, 1070],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#20B2AA"
-                        },
-                        {
-                            offset: 1,
-                            color: "#20B2AA"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "艺术中心",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'right',
-            },
-            value: [170, 1100],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#20B2AA"
-                        },
-                        {
-                            offset: 1,
-                            color: "#20B2AA"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "空港新城",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'right',
-            },
-            value: [120, 1150],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#20B2AA"
-                        },
-                        {
-                            offset: 1,
-                            color: "#20B2AA"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "机场（T5）",
-            symbol: 'circle',
-            symbolSize: [15, 15],
-            label: {
-                color: "#efefef",
-                position: 'right',
-            },
-            value: [80, 1190],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#20B2AA"
-                        },
-                        {
-                            offset: 1,
-                            color: "#20B2AA"
-                        }
-                    ])
-                }
-            }
-        },
-        {
-            name: "机场西（T1、T2、T3）",
-            symbol: 'circle',
-            symbolSize: [25, 25],
-            label: {
-                color: "#efefef",
-                position: 'bottom',
-            },
-            value: [20, 1130],
-            x: 1000,
-            y: 1000,
-            fixed: true,
-            category: 2,
-            itemStyle: {
-                normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                            offset: 0,
-                            color: "#20B2AA"
-                        },
-                        {
-                            offset: 1,
-                            color: "#20B2AA"
-                        }
-                    ])
-                }
-            }
-        },
-    ];
+//         {
+//             name: "百花村",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'right',
+//             },
+//             value: [730, 835],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#48D1CC"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#48D1CC"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "常青路",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'right',
+//             },
+//             value: [730, 865],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#48D1CC"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#48D1CC"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "市中医院",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'right',
+//             },
+//             value: [710, 890],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#48D1CC"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#48D1CC"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "文景路",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [550, 900],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#48D1CC"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#48D1CC"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "凤城九路",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [530, 930],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#48D1CC"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#48D1CC"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "凤城十二路",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [530, 970],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#48D1CC"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#48D1CC"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "元朔路",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [530, 1010],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#48D1CC"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#48D1CC"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "北客站(北广场)",
+//             symbol: 'circle',
+//             symbolSize: [25, 25],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'right',
+//             },
+//             value: [640, 1100],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#48D1CC"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#48D1CC"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         //机场城际
+//         {
+//             name: "渭河南",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [530, 1120],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#20B2AA"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#20B2AA"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "秦宫",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'left',
+//             },
+//             value: [450, 1145],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#20B2AA"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#20B2AA"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "秦汉新城",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [380, 1105],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#20B2AA"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#20B2AA"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "长陵",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [310, 1080],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#20B2AA"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#20B2AA"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "摆旗寨",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [230, 1070],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#20B2AA"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#20B2AA"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "艺术中心",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'right',
+//             },
+//             value: [170, 1100],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#20B2AA"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#20B2AA"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "空港新城",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'right',
+//             },
+//             value: [120, 1150],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#20B2AA"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#20B2AA"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "机场（T5）",
+//             symbol: 'circle',
+//             symbolSize: [15, 15],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'right',
+//             },
+//             value: [80, 1190],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#20B2AA"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#20B2AA"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//         {
+//             name: "机场西（T1、T2、T3）",
+//             symbol: 'circle',
+//             symbolSize: [25, 25],
+//             label: {
+//                 color: "#efefef",
+//                 position: 'bottom',
+//             },
+//             value: [20, 1130],
+//             x: 1000,
+//             y: 1000,
+//             fixed: true,
+//             category: 2,
+//             itemStyle: {
+//                 normal: {
+//                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+//                             offset: 0,
+//                             color: "#20B2AA"
+//                         },
+//                         {
+//                             offset: 1,
+//                             color: "#20B2AA"
+//                         }
+//                     ])
+//                 }
+//             }
+//         },
+//     ];
    
-   var option = ({
-         title: {
-            text: '西安地铁线路图',
-            textStyle: {
-                color: 'white',
-                fontSize: 20
-            },
-            x: 'center',
-            top: 10
-         },
-        //不设置背景颜色就是透明色
-         backgroundColor: '#000',
-         xAxis: {
-            show: false,
-            min: 0,
-            max: 1200,
-            // type: "value",
-            //开启x轴坐标
-              axisPointer: {
-                  show: true
-              },
-        },
-        yAxis: {
-            show: false,
-            min: 0,
-            max: 1200,
-            //   type: "value",
-            //开启y轴坐标
-              axisPointer: {
-                  show: true
-              },
-        },
-        tooltip: {},
-        //  legend: {
-        //     show: false
-        //  },
-        series: [{
-            type: "graph",
-            zlevel: 5,
-            draggable: false,
-            coordinateSystem: "cartesian2d", //使用二维的直角坐标系（也称笛卡尔坐标系）
+//    var option = ({
+//          title: {
+//             text: '西安地铁线路图',
+//             textStyle: {
+//                 color: 'white',
+//                 fontSize: 20
+//             },
+//             x: 'center',
+//             top: 10
+//          },
+//         //不设置背景颜色就是透明色
+//          backgroundColor: '#000',
+//          xAxis: {
+//             show: false,
+//             min: 0,
+//             max: 1200,
+//             // type: "value",
+//             //开启x轴坐标
+//               axisPointer: {
+//                   show: true
+//               },
+//         },
+//         yAxis: {
+//             show: false,
+//             min: 0,
+//             max: 1200,
+//             //   type: "value",
+//             //开启y轴坐标
+//               axisPointer: {
+//                   show: true
+//               },
+//         },
+//         tooltip: {},
+//         //  legend: {
+//         //     show: false
+//         //  },
+//         series: [{
+//             type: "graph",
+//             zlevel: 5,
+//             draggable: false,
+//             coordinateSystem: "cartesian2d", //使用二维的直角坐标系（也称笛卡尔坐标系）
    
-            // edgeSymbolSize: [0, 8], //边两端的标记大小，可以是一个数组分别指定两端，也可以是单个统一指定
-            // edgeLabel: {
-            //   normal: {
-            //     textStyle: {
-            //       fontSize: 60
-            //     }
-            //   }
-            // },
-            symbol: "rect",
-            symbolOffset: ["15%", 0],
+//             // edgeSymbolSize: [0, 8], //边两端的标记大小，可以是一个数组分别指定两端，也可以是单个统一指定
+//             // edgeLabel: {
+//             //   normal: {
+//             //     textStyle: {
+//             //       fontSize: 60
+//             //     }
+//             //   }
+//             // },
+//             symbol: "rect",
+//             symbolOffset: ["15%", 0],
    
-            label: {
-                normal: {
-                    show: true
-                }
-            },
-            data: data,
-            links: [{
-                    source: "沣河森林公园",
-                    target: "北槐"
-                    // lineStyle: {
-                    //   normal: {
-                    //     color: "#12b5d0",
-                    //
-                    //   }
-                    // }
-                },
-                {
-                    source: "北槐",
-                    target: "上林路",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
-                {
-                    source: "上林路",
-                    target: "沣东自贸园",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
-                {
-                    source: "沣东自贸园",
-                    target: "后卫寨",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
+//             label: {
+//                 normal: {
+//                     show: true
+//                 }
+//             },
+//             data: data,
+//             links: [{
+//                     source: "沣河森林公园",
+//                     target: "北槐"
+//                     // lineStyle: {
+//                     //   normal: {
+//                     //     color: "#12b5d0",
+//                     //
+//                     //   }
+//                     // }
+//                 },
+//                 {
+//                     source: "北槐",
+//                     target: "上林路",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "上林路",
+//                     target: "沣东自贸园",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "沣东自贸园",
+//                     target: "后卫寨",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
    
-                {
-                    source: "后卫寨",
-                    target: "三桥",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
+//                 {
+//                     source: "后卫寨",
+//                     target: "三桥",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
    
-                {
-                    source: "三桥",
-                    target: "皂河",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
+//                 {
+//                     source: "三桥",
+//                     target: "皂河",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
    
-                {
-                    source: "皂河",
-                    target: "枣园"
-                    // lineStyle: {
-                    //   normal: {
-                    //     color: "#12b5d0",
-                    //
-                    //   }
-                    // }
-                },
-                {
-                    source: "枣园",
-                    target: "汉城路",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
-                {
-                    source: "汉城路",
-                    target: "开远门",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
-                {
-                    source: "开远门",
-                    target: "劳动路",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
-                {
-                    source: "劳动路",
-                    target: "玉祥门",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
-                {
-                    source: "玉祥门",
-                    target: "洒金桥",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
-                {
-                    source: "洒金桥",
-                    target: "北大街",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
-                {
-                    source: "北大街",
-                    target: "五路口",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
-                {
-                    source: "五路口",
-                    target: "朝阳门",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
-                {
-                    source: "朝阳门",
-                    target: "康复路",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
-                {
-                    source: "康复路",
-                    target: "通化门",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
-                {
-                    source: "通化门",
-                    target: "万寿路",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
-                {
-                    source: "万寿路",
-                    target: "长乐坡",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
-                {
-                    source: "长乐坡",
-                    target: "浐河",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
-                {
-                    source: "浐河",
-                    target: "半坡",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
-                {
-                    source: "半坡",
-                    target: "纺织城",
-                    lineStyle: {
-                        normal: {
-                            // color: "#12b5d0",
-                        }
-                    }
-                },
-                //地铁二号线连接
+//                 {
+//                     source: "皂河",
+//                     target: "枣园"
+//                     // lineStyle: {
+//                     //   normal: {
+//                     //     color: "#12b5d0",
+//                     //
+//                     //   }
+//                     // }
+//                 },
+//                 {
+//                     source: "枣园",
+//                     target: "汉城路",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "汉城路",
+//                     target: "开远门",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "开远门",
+//                     target: "劳动路",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "劳动路",
+//                     target: "玉祥门",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "玉祥门",
+//                     target: "洒金桥",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "洒金桥",
+//                     target: "北大街",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "北大街",
+//                     target: "五路口",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "五路口",
+//                     target: "朝阳门",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "朝阳门",
+//                     target: "康复路",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "康复路",
+//                     target: "通化门",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "通化门",
+//                     target: "万寿路",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "万寿路",
+//                     target: "长乐坡",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "长乐坡",
+//                     target: "浐河",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "浐河",
+//                     target: "半坡",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "半坡",
+//                     target: "纺织城",
+//                     lineStyle: {
+//                         normal: {
+//                             // color: "#12b5d0",
+//                         }
+//                     }
+//                 },
+//                 //地铁二号线连接
                 
-                {
-                    source: "北大街",
-                    target: "安远门",
-                    lineStyle: {
-                        normal: {
-                            color: "red",
-                        }
-                    }
-                },
-                {
-                    source: "安远门",
-                    target: "龙首原",
-                    lineStyle: {
-                        normal: {
-                            color: "red",
-                        }
-                    }
-                },
-                {
-                    source: "龙首原",
-                    target: "大明宫西",
-                    lineStyle: {
-                        normal: {
-                            color: "red",
-                        }
-                    }
-                },
-                {
-                    source: "大明宫西",
-                    target: "市图书馆",
-                    lineStyle: {
-                        normal: {
-                            color: "red",
-                        }
-                    }
-                },
-                {
-                    source: "市图书馆",
-                    target: "凤城五路",
-                    lineStyle: {
-                        normal: {
-                            color: "red",
-                        }
-                    }
-                },
-                {
-                    source: "凤城五路",
-                    target: "行政中心",
-                    lineStyle: {
-                        normal: {
-                            color: "red",
-                        }
-                    }
-                },
-                {
-                    source: "行政中心",
-                    target: "运动公园",
-                    lineStyle: {
-                        normal: {
-                            color: "red",
-                        }
-                    }
-                },
-                {
-                    source: "运动公园",
-                    target: "北苑",
-                    lineStyle: {
-                        normal: {
-                            color: "red",
-                        }
-                    }
-                },
-                {
-                    source: "北苑",
-                    target: "北客站",
-                    lineStyle: {
-                        normal: {
-                            color: "red",
-                        }
-                    }
-                },
-                {
-                    source: "鱼化寨",
-                    target: "丈八北路",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "丈八北路",
-                    target: "延平门",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "延平门",
-                    target: "科技路",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "科技路",
-                    target: "太白南路",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "太白南路",
-                    target: "吉祥村",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "吉祥村",
-                    target: "小寨",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "小寨",
-                    target: "大雁塔",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "大雁塔",
-                    target: "北池头",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "北池头",
-                    target: "青龙寺",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "青龙寺",
-                    target: "延兴门",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "延兴门",
-                    target: "咸宁路",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "咸宁路",
-                    target: "长乐公园",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "长乐公园",
-                    target: "通化门",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "通化门",
-                    target: "胡家庙",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "胡家庙",
-                    target: "石家街",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "石家街",
-                    target: "辛家庙",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "辛家庙",
-                    target: "广泰门",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "广泰门",
-                    target: "桃花潭",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "桃花潭",
-                    target: "浐灞中心",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "浐灞中心",
-                    target: "香湖湾",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "香湖湾",
-                    target: "务庄",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "务庄",
-                    target: "国际港务区",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "国际港务区",
-                    target: "双寨",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "双寨",
-                    target: "新筑",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                {
-                    source: "新筑",
-                    target: "保税区",
-                    lineStyle: {
-                        normal: {
-                            color: "#FF00FF",
-                        }
-                    }
-                },
-                //地铁四号线和机场城际的连线
-                {
-                    source: "航天新城",
-                    target: "航天东路",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "航天东路",
-                    target: "神舟大道",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "神舟大道",
-                    target: "东长安街",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "东长安街",
-                    target: "飞天路",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "飞天路",
-                    target: "航天大道",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "航天大道",
-                    target: "金滹沱",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "金滹沱",
-                    target: "曲江池西",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "曲江池西",
-                    target: "大唐芙蓉园",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "大唐芙蓉园",
-                    target: "大雁塔",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "大雁塔",
-                    target: "西安科技大学",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "西安科技大学",
-                    target: "建筑科技大学",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "建筑科技大学",
-                    target: "和平门",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "和平门",
-                    target: "大差市",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "大差市",
-                    target: "五路口",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "五路口",
-                    target: "火车站",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "火车站",
-                    target: "含元殿",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "含元殿",
-                    target: "大明宫",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "大明宫",
-                    target: "大明宫北",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "大明宫北",
-                    target: "余家寨",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "余家寨",
-                    target: "百花村",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "百花村",
-                    target: "常青路",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "常青路",
-                    target: "市中医院",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "市中医院",
-                    target: "行政中心",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "行政中心",
-                    target: "文景路",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "文景路",
-                    target: "凤城九路",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "凤城九路",
-                    target: "凤城十二路",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "凤城十二路",
-                    target: "元朔路",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "元朔路",
-                    target: "北客站(北广场)",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                //机场城际各站点连线
-                {
-                    source: "北客站(北广场)",
-                    target: "渭河南",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "渭河南",
-                    target: "秦宫",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "秦宫",
-                    target: "秦汉新城",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "秦汉新城",
-                    target: "长陵",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "长陵",
-                    target: "摆旗寨",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "摆旗寨",
-                    target: "艺术中心",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "艺术中心",
-                    target: "空港新城",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "空港新城",
-                    target: "机场（T5）",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-                {
-                    source: "机场（T5）",
-                    target: "机场西（T1、T2、T3）",
-                    lineStyle: {
-                        normal: {
-                            color: "#48D1CC",
-                        }
-                    }
-                },
-            ],
-            lineStyle: {
-                normal: {
-                    opacity: 0.6, //线条透明度
-                    color: "#53B5EA",
-                    curveness: 0, //站点间连线曲度，0表示直线
-                    width: 10 //线条宽度
-                }
-            }
-        }, 
-        {
-               type: "lines",
-               coordinateSystem: "cartesian2d",
-               z: 1,
-               zlevel:7,
-               animation: true,
-               effect: {
-                 show: true,
-                 period: 5,
-                 trailLength: 0.71,
-                 symbolSize: 14,
-                 symbol: "circle",
-                 loop: true,
-                 color: 'yellow'
-               //   color: "rgba(55,155,255,0.5)"
-               },
-               lineStyle: {
-                 normal: {
-                   // color: "green",
-                   width: 0,
-                   curveness: 0  //动画线路的曲度
-                 }
-               },
+//                 {
+//                     source: "北大街",
+//                     target: "安远门",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "red",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "安远门",
+//                     target: "龙首原",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "red",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "龙首原",
+//                     target: "大明宫西",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "red",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "大明宫西",
+//                     target: "市图书馆",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "red",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "市图书馆",
+//                     target: "凤城五路",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "red",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "凤城五路",
+//                     target: "行政中心",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "red",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "行政中心",
+//                     target: "运动公园",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "red",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "运动公园",
+//                     target: "北苑",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "red",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "北苑",
+//                     target: "北客站",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "red",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "鱼化寨",
+//                     target: "丈八北路",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "丈八北路",
+//                     target: "延平门",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "延平门",
+//                     target: "科技路",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "科技路",
+//                     target: "太白南路",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "太白南路",
+//                     target: "吉祥村",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "吉祥村",
+//                     target: "小寨",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "小寨",
+//                     target: "大雁塔",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "大雁塔",
+//                     target: "北池头",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "北池头",
+//                     target: "青龙寺",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "青龙寺",
+//                     target: "延兴门",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "延兴门",
+//                     target: "咸宁路",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "咸宁路",
+//                     target: "长乐公园",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "长乐公园",
+//                     target: "通化门",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "通化门",
+//                     target: "胡家庙",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "胡家庙",
+//                     target: "石家街",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "石家街",
+//                     target: "辛家庙",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "辛家庙",
+//                     target: "广泰门",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "广泰门",
+//                     target: "桃花潭",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "桃花潭",
+//                     target: "浐灞中心",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "浐灞中心",
+//                     target: "香湖湾",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "香湖湾",
+//                     target: "务庄",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "务庄",
+//                     target: "国际港务区",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "国际港务区",
+//                     target: "双寨",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "双寨",
+//                     target: "新筑",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "新筑",
+//                     target: "保税区",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#FF00FF",
+//                         }
+//                     }
+//                 },
+//                 //地铁四号线和机场城际的连线
+//                 {
+//                     source: "航天新城",
+//                     target: "航天东路",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "航天东路",
+//                     target: "神舟大道",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "神舟大道",
+//                     target: "东长安街",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "东长安街",
+//                     target: "飞天路",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "飞天路",
+//                     target: "航天大道",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "航天大道",
+//                     target: "金滹沱",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "金滹沱",
+//                     target: "曲江池西",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "曲江池西",
+//                     target: "大唐芙蓉园",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "大唐芙蓉园",
+//                     target: "大雁塔",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "大雁塔",
+//                     target: "西安科技大学",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "西安科技大学",
+//                     target: "建筑科技大学",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "建筑科技大学",
+//                     target: "和平门",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "和平门",
+//                     target: "大差市",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "大差市",
+//                     target: "五路口",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "五路口",
+//                     target: "火车站",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "火车站",
+//                     target: "含元殿",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "含元殿",
+//                     target: "大明宫",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "大明宫",
+//                     target: "大明宫北",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "大明宫北",
+//                     target: "余家寨",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "余家寨",
+//                     target: "百花村",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "百花村",
+//                     target: "常青路",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "常青路",
+//                     target: "市中医院",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "市中医院",
+//                     target: "行政中心",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "行政中心",
+//                     target: "文景路",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "文景路",
+//                     target: "凤城九路",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "凤城九路",
+//                     target: "凤城十二路",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "凤城十二路",
+//                     target: "元朔路",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "元朔路",
+//                     target: "北客站(北广场)",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 //机场城际各站点连线
+//                 {
+//                     source: "北客站(北广场)",
+//                     target: "渭河南",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "渭河南",
+//                     target: "秦宫",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "秦宫",
+//                     target: "秦汉新城",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "秦汉新城",
+//                     target: "长陵",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "长陵",
+//                     target: "摆旗寨",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "摆旗寨",
+//                     target: "艺术中心",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "艺术中心",
+//                     target: "空港新城",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "空港新城",
+//                     target: "机场（T5）",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//                 {
+//                     source: "机场（T5）",
+//                     target: "机场西（T1、T2、T3）",
+//                     lineStyle: {
+//                         normal: {
+//                             color: "#48D1CC",
+//                         }
+//                     }
+//                 },
+//             ],
+//             lineStyle: {
+//                 normal: {
+//                     opacity: 0.6, //线条透明度
+//                     color: "#53B5EA",
+//                     curveness: 0, //站点间连线曲度，0表示直线
+//                     width: 10 //线条宽度
+//                 }
+//             }
+//         }, 
+//         {
+//                type: "lines",
+//                coordinateSystem: "cartesian2d",
+//                z: 1,
+//                zlevel:7,
+//                animation: true,
+//                effect: {
+//                  show: true,
+//                  period: 5,
+//                  trailLength: 0.71,
+//                  symbolSize: 14,
+//                  symbol: "circle",
+//                  loop: true,
+//                  color: 'yellow'
+//                //   color: "rgba(55,155,255,0.5)"
+//                },
+//                lineStyle: {
+//                  normal: {
+//                    // color: "green",
+//                    width: 0,
+//                    curveness: 0  //动画线路的曲度
+//                  }
+//                },
    
-               data: [
-                 {  //一号线
-                   coords: [
-                     [5, 600],
-                     [1130, 600]
-                   ]
-                 },
-                 {  //二号线
-                   coords: [
-                     [680, 50],
-                     [680, 1050]
-                   ]
-                 },
-               //   {  //三号线
-               //     coords: [
-               //       [280, 350],
-               //       [1040, 1080]
-               //     ]
-               //   }
-               ]
-             },
+//                data: [
+//                  {  //一号线
+//                    coords: [
+//                      [5, 600],
+//                      [1130, 600]
+//                    ]
+//                  },
+//                  {  //二号线
+//                    coords: [
+//                      [680, 50],
+//                      [680, 1050]
+//                    ]
+//                  },
+//                //   {  //三号线
+//                //     coords: [
+//                //       [280, 350],
+//                //       [1040, 1080]
+//                //     ]
+//                //   }
+//                ]
+//              },
         
-        ]
-   });
+//         ]
+//    });
  
-     // 3. 把配置项给实例对象
-     myChart.setOption(option);
-     // 4. 让图表跟随屏幕自动的去适应
-     window.addEventListener("resize", function() {
-         myChart.resize();
-     });
+//      // 3. 把配置项给实例对象
+//      myChart.setOption(option);
+//      // 4. 让图表跟随屏幕自动的去适应
+//      window.addEventListener("resize", function() {
+//          myChart.resize();
+//      });
  
-})
+// })
+
 
 
 
