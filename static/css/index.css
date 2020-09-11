@@ -296,6 +296,16 @@ header .showTime {
     margin-top: 20px;
 }
 
+.trend2 .echarts{
+    height: 260px;
+    margin-top: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.trend2 .echarts .trend_bar{
+    height: 100%;
+}
+
 
 /* 第三列 */
 .column:nth-child(3) {
@@ -370,7 +380,7 @@ header .showTime {
     float: left;
     width: 35%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.1);
+    /* background: rgba(255, 255, 255, 0.1); */
     background-image: url('../../resources/images/rect.png');
 }
 
@@ -401,6 +411,21 @@ header .showTime {
     height: 340px;
     margin-top: 20px;
   }
+
+  .health_trend span{
+    color: white;
+    font-size: 20px;
+}
+
+  .health_trend .echarts{
+      margin-top: 15px;
+      height: 250px;
+      /* background: rgba(255, 255, 255, 0.1); */
+  }
+
+  .health_trend .echarts .echarts_trend{
+    height: 100%;
+}
 
 
 
