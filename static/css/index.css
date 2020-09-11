@@ -213,14 +213,14 @@ header .showTime {
 .fault_stas .echarts{
     margin-top: 10px;
     height: 260px;
-    background-color: rgba(255, 255, 255, 0.1);
+    /* background-color: rgba(255, 255, 255, 0.1); */
 }
 
 .fault_stas .echarts .distribute{
     float: left;
     width: 65%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.1);
+    /* background-color: rgba(255, 255, 255, 0.1); */
 }
 
 .fault_stas .echarts  .data {
@@ -299,7 +299,7 @@ header .showTime {
 .trend2 .echarts{
     height: 260px;
     margin-top: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
+    /* background-color: rgba(255, 255, 255, 0.1); */
 }
 
 .trend2 .echarts .trend_bar{
@@ -326,7 +326,7 @@ header .showTime {
 
 .column:nth-child(3) .realtime .echarts{
     height: 220px;
-    background-color: rgba(255, 255, 255, 0.1);
+    /* background-color: rgba(255, 255, 255, 0.1); */
     margin-top: 20px;
 }
 
@@ -367,7 +367,7 @@ header .showTime {
 .health_assess .echarts{
     height: 320px;
     margin-top: 18px;
-    background-color: rgba(255, 255, 255, 0.1);
+    /* background-color: rgba(255, 255, 255, 0.1); */
 }
 
 .health_assess .echarts .board{
