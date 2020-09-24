@@ -592,14 +592,21 @@ $(function(){
     $('.health_assess .head a').on('click',function(){
         // 当前点击的页签添加active类，其他的兄弟页签移除这个类
         $(this).addClass('active').siblings().removeClass('active')
+
+        var idx=$(this).index();
+        console.log(idx)
+        // 索引一直的页面显示 
+        $('.health_assess .echarts .unit').html($('.health_assess .head a').eq(idx-1).text());
     })
     // 1实例化对象
     var myChart = echarts.init(document.querySelector(".health_assess .echarts .board"));
     
-    var dataArr = [{
-        value: 85,
-        name: '综合健康评分'
-    }];
+
+    // var dataArr = [{
+    //     value: 85+10*(2*Math.random()-1),
+    //     name: '综合健康评分'
+    // }];
+    
     var color = new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
             offset: 0,
             color: '#5CF9FE' // 0% 处的颜色
@@ -767,7 +774,9 @@ $(function(){
                     rich: rich,
                     "offsetCenter": ['0%', "0%"],
                 },
-                data: dataArr,
+                data:  [{
+                    value: []
+                }],
                 title: {
                     show: false,
                 },
@@ -913,9 +922,36 @@ $(function(){
         ]
     };
 
-
+    
     // 3. 把配置项给实例对象
     myChart.setOption(option);
+
+    var score=0;
+    var dataArr;
+
+    setInterval(function(){
+
+        strr=String(Math.floor(Math.random() * 10 + 1));
+
+        // document.querySelector("health_assess .echarts .item .down").innerHTML=strr;
+        
+        // 1.数组下标++切换数据
+       
+        dataArr = [{
+            value: 85+10*(2*Math.random()-1),
+            name: '综合健康评分'
+        }];
+
+        //2.替换数据
+      
+        // 3.重新渲染echarts图表
+        option.series[2].data[0].value=Math.round(85+10*(2*Math.random()-1));
+
+        console.log(option.series[2].data);
+
+        myChart.setOption(option)
+
+    },2000);
     // 4. 让图表跟随屏幕自动的去适应
     window.addEventListener("resize", function() {
         myChart.resize();
@@ -923,7 +959,7 @@ $(function(){
 
 })
 
-// 入口函数-健康评估图
+// 入口函数-健康评估趋势图
 $(function(){
 
     // 1实例化对象

@@ -1,5 +1,5 @@
 body {
-    background: url(../../resources/images/bg.jpg) no-repeat;
+    background: url(../images/bg.jpg) no-repeat;
     /* 背景图完全覆盖*/
     background-size: cover;
 }
@@ -19,11 +19,11 @@ header .showTime {
 
 .container {
     min-height: 800px;
-    min-width: 1000px;
+    min-width: 1200px;
     /* 最大宽度，保证图片不失真笔记本1920,台式电脑*/
     max-width: 1920px;
     margin: 0 auto;
-    background: url(../../resources/images/logo.png) no-repeat;
+    background: url(../images/logo.png) no-repeat;
     /*设置版心背景图，要让它自适应这个body */
     background-size: contain;
     padding: 88px 20px 20px 20px;
@@ -38,7 +38,7 @@ header .showTime {
     border-width: 77px 60px 23px 200px;
     /* 设置了边框，那盒子就会变大了，如果想要盒子不变大，需要进行如下设置 */
     box-sizing: border-box;
-    border-image-source: url(../../resources/images/border.png);
+    border-image-source: url(../images/border.png);
     border-image-slice: 77 60 23 200;
     border-image-width: 77px 60px 23px 200px;
     border-image-repeat: stretch;
@@ -92,6 +92,8 @@ header .showTime {
 
 
 /* 1.2故障设备监测 */
+
+
 
 .monitor {
     height: 474px;
@@ -171,6 +173,20 @@ header .showTime {
     padding-left: 20px;
 }
 
+/* .content .carousel ul li .red{
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background-color: red;
+}
+
+.content .carousel ul li .yellow{
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background-color: yellow;
+} */
+
 .monitor .content .carousel ul li:hover{
     /* background-color: green; */
 }
@@ -196,6 +212,12 @@ header .showTime {
     /* 3.设置隐藏的部分为省略号 */
     text-overflow: ellipsis;
 }
+
+.monitor .content .carousel ul li span:nth-child(3){
+    padding-left: 42px;
+}
+
+
 
 
 
@@ -227,7 +249,8 @@ header .showTime {
     float: left;
     width: 35%;
     height: 100%;
-    background: url('../../resources/images/rect.png');
+    /* background: url('../../resources/images/rect.png'); */
+    background: url(../images/rect.png);
 }
 
 .echarts  .data .item {
@@ -381,7 +404,7 @@ header .showTime {
     width: 35%;
     height: 100%;
     /* background: rgba(255, 255, 255, 0.1); */
-    background-image: url('../../resources/images/rect.png');
+    background-image: "{{ url_for('static', filename='img/rect.png') }}";
 }
 
 .health_assess .echarts .data .item{
@@ -395,6 +418,13 @@ header .showTime {
    font-weight: bold;
    color: white;
 }
+
+.health_assess .echarts .data .unit{
+    color: red;
+    font-size: 25px;
+    margin-top: 8px;
+    padding-left: 10px;
+ }
 
 .health_assess .echarts .data .item span{
     color: #4c9bfd;
